@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="jU2-Ea-ddM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="jU2-Ea-ddM">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -51,43 +51,69 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Bws-pR-8aT">
-                                <rect key="frame" x="240" y="80" width="120" height="120"/>
-                                <color key="backgroundColor" red="0.15000000599999999" green="0.15000000599999999" blue="0.15000000599999999" alpha="1" colorSpace="deviceRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="120" id="aFc-iL-v5L"/>
-                                    <constraint firstAttribute="width" constant="120" id="qCd-gl-uZP"/>
-                                </constraints>
-                            </imageView>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Zip Code" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wYQ-mp-i4g">
-                                <rect key="frame" x="32" y="279" width="536" height="18"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="User Name" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rm0-Vu-ixZ">
-                                <rect key="frame" x="32" y="220" width="536" height="23"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="19"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="E-mail Address" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fzU-d2-Qy3">
-                                <rect key="frame" x="32" y="253" width="536" height="18"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="y17-fb-i53">
+                                <rect key="frame" x="0.0" y="64" width="600" height="487"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <view key="tableHeaderView" contentMode="scaleToFill" id="nwd-Yp-n4z">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="281"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Bws-pR-8aT">
+                                            <rect key="frame" x="240" y="10" width="120" height="120"/>
+                                            <color key="backgroundColor" red="0.15000000599999999" green="0.15000000599999999" blue="0.15000000599999999" alpha="1" colorSpace="deviceRGB"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="120" id="aFc-iL-v5L"/>
+                                                <constraint firstAttribute="width" constant="120" id="qCd-gl-uZP"/>
+                                            </constraints>
+                                        </imageView>
+                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="User Name" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rm0-Vu-ixZ">
+                                            <rect key="frame" x="248" y="134" width="105" height="23"/>
+                                            <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="19"/>
+                                            <textInputTraits key="textInputTraits"/>
+                                        </textField>
+                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="E-mail Address" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fzU-d2-Qy3">
+                                            <rect key="frame" x="247" y="161" width="106" height="18"/>
+                                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
+                                            <textInputTraits key="textInputTraits"/>
+                                        </textField>
+                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Zip Code" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wYQ-mp-i4g">
+                                            <rect key="frame" x="267" y="183" width="66" height="18"/>
+                                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
+                                            <textInputTraits key="textInputTraits"/>
+                                        </textField>
+                                        <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="c9s-xB-Yuc">
+                                            <rect key="frame" x="221" y="211" width="159" height="29"/>
+                                            <segments>
+                                                <segment title="My Games"/>
+                                                <segment title="Favorites"/>
+                                            </segments>
+                                            <connections>
+                                                <action selector="changeSegment:" destination="Yb5-xL-fHA" eventType="valueChanged" id="0Di-0n-klX"/>
+                                            </connections>
+                                        </segmentedControl>
+                                    </subviews>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <constraints>
+                                        <constraint firstAttribute="centerX" secondItem="rm0-Vu-ixZ" secondAttribute="centerX" id="28B-kY-MjA"/>
+                                        <constraint firstAttribute="centerX" secondItem="Bws-pR-8aT" secondAttribute="centerX" id="5gY-5b-wtI"/>
+                                        <constraint firstAttribute="centerX" secondItem="c9s-xB-Yuc" secondAttribute="centerX" id="BZf-Rr-Qcu"/>
+                                        <constraint firstItem="Bws-pR-8aT" firstAttribute="top" secondItem="nwd-Yp-n4z" secondAttribute="top" constant="10" id="CHo-N5-N9v"/>
+                                        <constraint firstItem="wYQ-mp-i4g" firstAttribute="top" secondItem="fzU-d2-Qy3" secondAttribute="bottom" constant="4" id="JGG-mo-zRi"/>
+                                        <constraint firstItem="fzU-d2-Qy3" firstAttribute="top" secondItem="rm0-Vu-ixZ" secondAttribute="bottom" constant="4" id="Nzk-YD-Xlb"/>
+                                        <constraint firstItem="c9s-xB-Yuc" firstAttribute="top" secondItem="wYQ-mp-i4g" secondAttribute="bottom" constant="10" id="Rnr-Es-9cb"/>
+                                        <constraint firstAttribute="centerX" secondItem="fzU-d2-Qy3" secondAttribute="centerX" id="leM-wF-IGa"/>
+                                        <constraint firstAttribute="centerX" secondItem="wYQ-mp-i4g" secondAttribute="centerX" id="uWJ-mj-URT"/>
+                                        <constraint firstItem="rm0-Vu-ixZ" firstAttribute="top" secondItem="Bws-pR-8aT" secondAttribute="bottom" constant="4" id="vxe-ST-Ab8"/>
+                                    </constraints>
+                                </view>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="Bws-pR-8aT" firstAttribute="top" secondItem="YWz-NM-qLU" secondAttribute="bottom" constant="16" id="6vC-ho-HA2"/>
-                            <constraint firstItem="wYQ-mp-i4g" firstAttribute="top" secondItem="fzU-d2-Qy3" secondAttribute="bottom" constant="8" id="BPN-N3-esT"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="rm0-Vu-ixZ" secondAttribute="trailing" constant="16" id="Gsf-MA-PZE"/>
-                            <constraint firstItem="rm0-Vu-ixZ" firstAttribute="top" secondItem="Bws-pR-8aT" secondAttribute="bottom" constant="20" id="J1a-Gl-o6o"/>
-                            <constraint firstItem="wYQ-mp-i4g" firstAttribute="leading" secondItem="ykx-1P-cb1" secondAttribute="leadingMargin" constant="16" id="WDC-7i-pzG"/>
-                            <constraint firstItem="rm0-Vu-ixZ" firstAttribute="leading" secondItem="ykx-1P-cb1" secondAttribute="leadingMargin" constant="16" id="Zeu-fZ-GI9"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="wYQ-mp-i4g" secondAttribute="trailing" constant="16" id="diY-kh-Gbv"/>
-                            <constraint firstAttribute="centerX" secondItem="Bws-pR-8aT" secondAttribute="centerX" id="gQv-Uq-OR8"/>
-                            <constraint firstItem="fzU-d2-Qy3" firstAttribute="leading" secondItem="ykx-1P-cb1" secondAttribute="leadingMargin" constant="16" id="iWp-In-86e"/>
-                            <constraint firstItem="fzU-d2-Qy3" firstAttribute="top" secondItem="rm0-Vu-ixZ" secondAttribute="bottom" constant="10" id="n1l-83-f8J"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="fzU-d2-Qy3" secondAttribute="trailing" constant="16" id="q7W-Z3-5bG"/>
+                            <constraint firstItem="y17-fb-i53" firstAttribute="top" secondItem="YWz-NM-qLU" secondAttribute="bottom" id="0AC-fw-bOm"/>
+                            <constraint firstItem="ZZC-ef-0kN" firstAttribute="top" secondItem="y17-fb-i53" secondAttribute="bottom" id="OuG-Kb-htA"/>
+                            <constraint firstItem="y17-fb-i53" firstAttribute="leading" secondItem="ykx-1P-cb1" secondAttribute="leadingMargin" constant="-16" id="fbJ-Fm-34X"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="y17-fb-i53" secondAttribute="trailing" constant="-16" id="jvl-ac-vXE"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="My Profile" id="AJB-tO-0Os">
@@ -101,6 +127,8 @@
                         <outlet property="emailTextField" destination="fzU-d2-Qy3" id="p7U-Tu-M4n"/>
                         <outlet property="imageView" destination="Bws-pR-8aT" id="FeD-hT-DsE"/>
                         <outlet property="screenNameTextField" destination="rm0-Vu-ixZ" id="MBf-lF-w10"/>
+                        <outlet property="segmentedControl" destination="c9s-xB-Yuc" id="F8P-mo-FS4"/>
+                        <outlet property="tableView" destination="y17-fb-i53" id="UGS-by-5He"/>
                         <outlet property="zipCodeTextField" destination="wYQ-mp-i4g" id="74q-oh-oK1"/>
                     </connections>
                 </viewController>

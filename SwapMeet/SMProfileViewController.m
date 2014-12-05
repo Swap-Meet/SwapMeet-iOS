@@ -7,6 +7,9 @@
 //
 
 #import "SMProfileViewController.h"
+#import "SMAddGameViewController.h"
+#import "CoreDataController.h"
+#import "SearchTableViewCell.h"
 #import "SMNetworking.h"
 #import "AppDelegate.h"
 #import "CLUploader+SwapMeet.h"
@@ -22,6 +25,9 @@ NSString * const kSMDefaultsKeyAvatarURL = @"avatar";
     MBProgressHUD *hud;
 }
 
+@property (strong, nonatomic) NSFetchedResultsController *fetchController;
+@property (strong, nonatomic) UIBarButtonItem *addGameButton;
+
 @property (strong, nonatomic) NSString *email;
 @property (strong, nonatomic) NSString *screenName;
 @property (strong, nonatomic) NSString *zipCode;
@@ -35,9 +41,16 @@ NSString * const kSMDefaultsKeyAvatarURL = @"avatar";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(favoriteAdded:) name:@"ADDED_FAVORITE" object:nil];
+    [self.tableView registerNib:[UINib nibWithNibName:@"SearchTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"GAME_CELL"];
+    self.tableView.rowHeight = UITableViewAutomaticDimension;
+    
     UITapGestureRecognizer *touch = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageTapped:)];
     [self.imageView addGestureRecognizer:touch];
     self.imageView.userInteractionEnabled = true;
+    
+    self.tableView.dataSource = self;
+    self.tableView.delegate = self;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -63,12 +76,131 @@ NSString * const kSMDefaultsKeyAvatarURL = @"avatar";
     }
 
     [self checkForAvatarImage];
+    
+    self.fetchController = [[CoreDataController controller] fetchUserGames:self.segmentedControl.selectedSegmentIndex];
+    self.fetchController.delegate = self;
+    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
 
+#pragma mark - TABLE VIEW DATA SOURCE
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return [self.fetchController.fetchedObjects count];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 110;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    SearchTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"GAME_CELL" forIndexPath:indexPath];
+    Game *selectedGame = [self.fetchController.fetchedObjects objectAtIndex:indexPath.row];
+    
+    cell.titleLabel.text = selectedGame.title;
+    cell.platformName.text = selectedGame.platform;
+    cell.conditionLabel.text = selectedGame.condition;
+    cell.conditionContainerView.backgroundColor = [cell getConditionColor:selectedGame.condition];
+    
+    NSString *imagePath = selectedGame.imagePath;
+    if (imagePath) {
+        NSString *imageFullPath = [[[NSURL fileURLWithPath:[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] isDirectory:YES] URLByAppendingPathComponent:imagePath] path];
+        UIImage *image = [UIImage imageWithContentsOfFile:imageFullPath];
+        cell.thumbnailImageView.image = image;
+    } else {
+        cell.thumbnailImageView.image = nil;
+    }
+    
+    return cell;
+}
+
+#pragma mark - TABLE VIEW DELEGATE
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        if (self.fetchController != nil) {
+            __block Game *game = [self.fetchController.fetchedObjects objectAtIndex:indexPath.row];
+            if (!game)
+                return;
+            
+            hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            if (_segmentedControl.selectedSegmentIndex == 0) {
+                [SMNetworking deleteUserGameWithID:game.gameID completion:^(BOOL success, NSString *errorString) {
+                    [hud hide:YES];
+                    if (success) {
+                        [[CoreDataController controller] deleteGame:game];
+                        [[CoreDataController controller] saveContext];
+                    } else {
+                        [[[UIAlertView alloc] initWithTitle:@"Deletion failed" message:errorString delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+                    }
+                }];
+            } else {
+                [SMNetworking removeGameFromFavoritesWithID:game.gameID completion:^(BOOL success, NSString *errorString) {
+                    [hud hide:YES];
+                    if (success || [errorString isEqualToString:@"Game not found in user's list"]) {
+                        [[CoreDataController controller] deleteGame:game];
+                        [[CoreDataController controller] saveContext];
+                    } else {
+                        [[[UIAlertView alloc] initWithTitle:@"Deletion failed" message:errorString delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+                    }
+                }];
+            }
+        }
+    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
+        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
+    }
+}
+
+#pragma mark - FETCHED RESULTS CONTROLLER DELEGATE
+
+- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
+    [self.tableView beginUpdates];
+}
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
+    [self.tableView endUpdates];
+}
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath {
+    switch (type) {
+        case 1:
+            [self.tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+        case 2:
+            [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+        case 3:
+            [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            [self.tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+        case 4:
+            [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+        default:
+            break;
+    }
+}
+
+
+- (IBAction)changeSegment:(id)sender {
+    if (self.segmentedControl.selectedSegmentIndex == 0) {
+        NSLog(@"My Games");
+        self.fetchController = [[CoreDataController controller] fetchUserGames:self.segmentedControl.selectedSegmentIndex];
+    } else if (self.segmentedControl.selectedSegmentIndex == 1) {
+        NSLog(@"Favorites");
+        self.fetchController = [[CoreDataController controller] fetchUserGames:self.segmentedControl.selectedSegmentIndex];
+    }
+    
+    self.fetchController.delegate = self;
+    [self.tableView reloadData];
+}
 
 - (IBAction)logoutButton:(id)sender {
     UIAlertController *logoutAlert = [UIAlertController alertControllerWithTitle:@"Logout" message:@"Are you sure you want to logout?" preferredStyle:UIAlertControllerStyleAlert];
@@ -175,6 +307,10 @@ NSString * const kSMDefaultsKeyAvatarURL = @"avatar";
         NSLog(@"Avatar image does exist, setting image view.");
         //self.imageView.image = self.avatarImage;
     }
+}
+
+- (void)favoriteAdded:(NSNotification *)notification {
+    NSLog(@"Favorite Added");
 }
 
 @end
