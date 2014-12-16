@@ -7,6 +7,7 @@
 //
 
 #import "SearchTableViewCell.h"
+#import "SMNetworking.h"
 
 @interface SearchTableViewCell ()
 @property (weak, nonatomic) IBOutlet UIImageView *starImageView;
@@ -16,6 +17,32 @@
 @end
 
 @implementation SearchTableViewCell
+
+- (void)awakeFromNib {
+    // Initialization code
+    
+    // Favorite Tap Gesture
+    UITapGestureRecognizer *didSelectFavorite = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(favoriteTap)];
+    [self.starImageView addGestureRecognizer:didSelectFavorite];
+    
+    _conditionContainerView.layer.cornerRadius = 2;
+    _platformBackgroundView.layer.cornerRadius = 2;
+    _thumbnailImageView.layer.cornerRadius = 4;
+    [self addObserver:self forKeyPath:@"platformName.text" options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@"mode" options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@"starred" options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@"conditionLabel.text" options:NSKeyValueObservingOptionNew context:nil];
+    _platformName.text = nil;
+    _conditionLabel.text = nil;
+    self.mode = SearchTableViewCellModeGames;
+}
+
+- (void)dealloc {
+    [self removeObserver:self forKeyPath:@"platformName.text"];
+    [self removeObserver:self forKeyPath:@"mode"];
+    [self removeObserver:self forKeyPath:@"starred"];
+    [self removeObserver:self forKeyPath:@"conditionLabel.text"];
+}
 
 #pragma mark - Public Methods
 
@@ -51,20 +78,6 @@
     }
 }
 
-- (void)awakeFromNib {
-    // Initialization code
-    _conditionContainerView.layer.cornerRadius = 2;
-    _platformBackgroundView.layer.cornerRadius = 2;
-    _thumbnailImageView.layer.cornerRadius = 4;
-    [self addObserver:self forKeyPath:@"platformName.text" options:NSKeyValueObservingOptionNew context:nil];
-    [self addObserver:self forKeyPath:@"mode" options:NSKeyValueObservingOptionNew context:nil];
-    [self addObserver:self forKeyPath:@"starred" options:NSKeyValueObservingOptionNew context:nil];
-    [self addObserver:self forKeyPath:@"conditionLabel.text" options:NSKeyValueObservingOptionNew context:nil];
-    _platformName.text = nil;
-    _conditionLabel.text = nil;
-    self.mode = SearchTableViewCellModeGames;
-}
-
 - (void)prepareForReuse {
     _platformName.text = nil;
     _thumbnailImageView.image = nil;
@@ -74,13 +87,6 @@
     [super setSelected:selected animated:animated];
 
     _platformBackgroundView.backgroundColor = [UIColor lightGrayColor];
-}
-
-- (void)dealloc {
-    [self removeObserver:self forKeyPath:@"platformName.text"];
-    [self removeObserver:self forKeyPath:@"mode"];
-    [self removeObserver:self forKeyPath:@"starred"];
-    [self removeObserver:self forKeyPath:@"conditionLabel.text"];
 }
 
 - (UIColor *) getConditionColor:(NSString *) condition {
@@ -95,6 +101,16 @@
     } else {
         return [UIColor colorWithRed:28.0f/255.0f green:201.0f/255.0f blue:42.0f/255.0f alpha:1.0];
     }
+}
+
+- (void)favoriteTap {
+    NSLog(@"star tap");
+
+    [self startStarUpdate];
+    NSMutableDictionary *gameRow;
+    //int indexInt = self.indexRow;
+    //[[NSNotificationCenter defaultCenter] postNotificationName:@"FAVORITE_ADDED" object:self userInfo:@{@"index_row":}];
+    //[[NSNotificationCenter defaultCenter] postNotificationName:@"FAVORITE_ADDED" object:self userInfo:nil];
 }
 
 @end

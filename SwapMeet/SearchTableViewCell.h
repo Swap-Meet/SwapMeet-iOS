@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SMSearchViewController.h"
 
 typedef enum : NSUInteger {
     SearchTableViewCellModeGames,
@@ -15,14 +16,17 @@ typedef enum : NSUInteger {
 
 @interface SearchTableViewCell : UITableViewCell
 
+@property (strong, nonatomic) NSDictionary *selectedGame;
+@property (nonatomic) NSInteger indexRow;
+@property (nonatomic) SearchTableViewCellMode mode;
+@property (nonatomic) BOOL starred;
+
 @property (weak, nonatomic) IBOutlet UIImageView *thumbnailImageView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *platformName;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (weak, nonatomic) IBOutlet UILabel *conditionLabel;
 @property (weak, nonatomic) IBOutlet UIView *conditionContainerView;
-@property (nonatomic) SearchTableViewCellMode mode;
-@property (nonatomic) BOOL starred;
 
 - (void)startStarUpdate;
 - (void)finishStarUpdate:(BOOL)starred;

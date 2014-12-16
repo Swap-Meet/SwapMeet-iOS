@@ -10,4 +10,6 @@
 
 @interface SMSearchViewController : UIViewController <UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
 
+@property (strong, nonatomic) NSMutableArray *gamesArray;
+
 @end
