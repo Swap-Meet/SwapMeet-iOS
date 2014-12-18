@@ -7,9 +7,11 @@
 //
 
 #import "SMSearchViewController.h"
-#import "SearchTableViewCell.h"
 #import "SMGameDetailsViewController.h"
+#import "SMSearchFilterViewController.h"
+#import "SMSwapBoxViewController.h"
 #import "SMNetworking.h"
+#import "SearchTableViewCell.h"
 #import "Game.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 #import "CoreDataController.h"
@@ -255,6 +257,18 @@
             [_tableView reloadData];
         }
     }
+}
+
+#pragma mark - NAVIGATION
+
+- (IBAction)swapBoxButtonPressed:(id)sender {
+    SMSwapBoxViewController *swapBoxViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"SWAP_BOX_VC"];
+    [self presentViewController:swapBoxViewController animated:YES completion:nil];
+}
+
+- (IBAction)filterButtonPressed:(id)sender {
+    SMSearchFilterViewController *searchFilterViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"SEARCH_FILTER_VC"];
+    [self presentViewController:searchFilterViewController animated:YES completion:nil];
 }
 
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "SMGameDetailsViewController.h"
+#import "SMTradeRequestViewController.h"
 
 @interface SMGameDetailsViewController ()
 
@@ -45,6 +46,12 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (IBAction)requestButtonPressed:(id)sender {
+    SMTradeRequestViewController *tradeRequest = [self.storyboard instantiateViewControllerWithIdentifier:@"TRADE_REQUEST_VC"];
+    [self.navigationController pushViewController:tradeRequest animated:YES];
+    //[self presentViewController:tradeRequest animated:true completion:nil];
 }
 
 @end
