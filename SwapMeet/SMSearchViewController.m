@@ -19,6 +19,7 @@
     MBProgressHUD *hud;
 }
 
+@property (strong, nonatomic) NSString *token;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
@@ -32,12 +33,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.token = [[NSUserDefaults standardUserDefaults] objectForKey:kSMDefaultsKeyToken];
     self.gamesArray = [NSMutableArray array];
 
     [self.tableView registerNib:[UINib nibWithNibName:@"SearchTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"GAME_CELL"];
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     self.tableView.estimatedRowHeight = 100;
+    
     _canLoadMore = YES;
+    [self searchAtOffset:0];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addedFavorite:) name:@"FAVORITE_ADDED" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deletedFavorite:) name:@"FAVORITE_DELETED" object:nil];
@@ -139,7 +143,7 @@
     [self.navigationController pushViewController:gameDetails animated:YES];
 }
 
-#pragma mark - UISearchBarDelegate Methods
+#pragma mark - SEARCH BAR DELEGATE
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     [searchBar resignFirstResponder];
@@ -153,19 +157,25 @@
 
 - (void)searchAtOffset:(NSInteger)offset {
     _canLoadMore = NO;
-    _searchTask = [SMNetworking gamesContaining:_searchBar.text forPlatform:nil atOffset:offset completion:^(NSArray *objects, NSInteger itemsLeft, NSString *errorString) {
-        _canLoadMore = itemsLeft > 0;
-        NSLog(@"Count: %ld. Items left: %ld", (long)[objects count], (long)itemsLeft);
-        [hud hide:YES];
-        if (errorString) {
-            NSLog(@"%@", errorString);
-            return;
-        }
-        
-        [_gamesArray addObjectsFromArray:objects];
-        NSLog(@"%@", objects);
-        [_tableView reloadData];
-    }];
+    
+    if (!self.token) {
+        NSLog(@"Public Browsing...");
+    } else {
+        NSLog(@"Authenticated Search...");
+        _searchTask = [SMNetworking gamesContaining:_searchBar.text forPlatform:nil atOffset:offset completion:^(NSArray *objects, NSInteger itemsLeft, NSString *errorString) {
+            _canLoadMore = itemsLeft > 0;
+            NSLog(@"Count: %ld. Items left: %ld", (long)[objects count], (long)itemsLeft);
+            [hud hide:YES];
+            if (errorString) {
+                NSLog(@"%@", errorString);
+                return;
+            }
+            
+            [_gamesArray addObjectsFromArray:objects];
+            NSLog(@"%@", objects);
+            [_tableView reloadData];
+        }];
+    }
 }
 
 - (void)addedFavorite:(NSNotification *)notification {

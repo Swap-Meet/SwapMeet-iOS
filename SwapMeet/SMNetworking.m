@@ -228,7 +228,7 @@ NSString * const kSMDefaultsKeyToken = @"token";
     }
     
     __block void(^completionBlock)(NSArray *objects, NSInteger itemsLeft, NSString *errorString) = completion;
-    return [self performJSONRequestAtPath:@"wantsgames" withMethod:@"GET" andParameters:params sendBodyAsJSON:NO completion:^(NSDictionary *JSONDic, NSString *errorString) {
+    return [self performJSONRequestAtPath:@"search" withMethod:@"GET" andParameters:params sendBodyAsJSON:NO completion:^(NSDictionary *JSONDic, NSString *errorString) {
         NSInteger itemsLeft = 0;
         NSMutableArray *objects = nil;
         if (!errorString) {

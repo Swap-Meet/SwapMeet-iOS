@@ -136,29 +136,8 @@
     NSString *token = [[NSUserDefaults standardUserDefaults] stringForKey:kSMDefaultsKeyToken];
     //NSLog(@"%@", token);
     
-    //SMGamesViewController *gameViewController = tabBarController.viewControllers[2];
     SMProfileViewController *profileViewController = tabBarController.viewControllers[1];
     
-//    if ([viewController isEqual:gameViewController]) {
-//        if (!token) {
-//            //NSLog(@"No token");
-//            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Login required" message:@"Please log in to view your games." preferredStyle: UIAlertControllerStyleAlert];
-//            UIAlertAction *cancelButton = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
-//            UIAlertAction *loginButton = [UIAlertAction actionWithTitle:@"Login" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-//                self.targetTab = 2;
-//                self.navigationController = [[UINavigationController alloc] initWithRootViewController:[[SMLoginViewController alloc] initWithNibName:@"SMLoginViewController" bundle:[NSBundle mainBundle]]];
-//                [self.window.rootViewController presentViewController:self.navigationController animated:true completion:nil];
-//            }];
-//            
-//            [alert addAction:cancelButton];
-//            [alert addAction:loginButton];
-//            [self.window.rootViewController presentViewController:alert animated:true completion:nil];
-//            return false;
-//        } else {
-//            //NSLog(@"Token exists");
-//            return true;
-//        }
-    //} else
     if ([viewController isEqual:profileViewController]) {
         if (!token) {
             //NSLog(@"No token");
@@ -186,11 +165,6 @@
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
     //NSLog(@"tab bar index %lu", (unsigned long)tabBarController.selectedIndex);
     
-//    if (tabBarController.selectedIndex == 1) {
-//        NSLog(@"1");
-//    } else if (tabBarController.selectedIndex == 3) {
-//        NSLog(@"3");
-//    }
 }
 
 @end
