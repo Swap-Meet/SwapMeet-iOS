@@ -13,9 +13,9 @@
 #import "SMNetworking.h"
 #import "SearchTableViewCell.h"
 #import "Game.h"
-#import <MBProgressHUD/MBProgressHUD.h>
 #import "CoreDataController.h"
 #import "GDCacheController.h"
+#import <MBProgressHUD/MBProgressHUD.h>
 
 @interface SMSearchViewController () {
     MBProgressHUD *hud;
@@ -158,13 +158,27 @@
 #pragma mark - PRIVATE METHODS
 
 - (void)searchAtOffset:(NSInteger)offset {
+    NSString *searchText = _searchBar.text;
     _canLoadMore = NO;
     
     if (!self.token) {
         NSLog(@"Public Browsing...");
+        _searchTask = [SMNetworking publicBrowsingContaining:searchText forPlatform:nil atOffset:offset completion:^(NSArray *objects, NSInteger itemsLeft, NSString *errorString) {
+            _canLoadMore = itemsLeft > 0;
+            NSLog(@"Count: %ld. Items left: %ld", (long)[objects count], (long)itemsLeft);
+            [hud hide:YES];
+            if (errorString) {
+                NSLog(@"%@", errorString);
+                return;
+            }
+            
+            [_gamesArray addObjectsFromArray:objects];
+            NSLog(@"%@", objects);
+            [_tableView reloadData];
+        }];
     } else {
         NSLog(@"Authenticated Search...");
-        _searchTask = [SMNetworking gamesContaining:_searchBar.text forPlatform:nil atOffset:offset completion:^(NSArray *objects, NSInteger itemsLeft, NSString *errorString) {
+        _searchTask = [SMNetworking gamesContaining:searchText forPlatform:nil atOffset:offset completion:^(NSArray *objects, NSInteger itemsLeft, NSString *errorString) {
             _canLoadMore = itemsLeft > 0;
             NSLog(@"Count: %ld. Items left: %ld", (long)[objects count], (long)itemsLeft);
             [hud hide:YES];

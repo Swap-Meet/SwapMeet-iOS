@@ -105,7 +105,7 @@
                                             <textInputTraits key="textInputTraits"/>
                                         </textField>
                                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D6Y-21-r70">
-                                            <rect key="frame" x="417" y="87" width="122" height="30"/>
+                                            <rect key="frame" x="30" y="69" width="122" height="30"/>
                                             <state key="normal" title="&lt;Gear to Logout&gt;">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SMSearchViewController : UIViewController <UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface SMSearchViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>
 
 @property (strong, nonatomic) NSMutableArray *gamesArray;
 

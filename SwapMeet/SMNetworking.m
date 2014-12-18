@@ -18,7 +18,21 @@ NSString * const kSMDefaultsKeyToken = @"token";
 
 @implementation SMNetworking
 
-#pragma mark - Setters & Getters
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.baseURLString = @"https://cryptic-savannah-2534.herokuapp.com/api/";
+        [self setValue:@"someFancyKey" forHTTPHeaderField:@"key"];
+        NSString *token = [self token];
+        if (token) {
+            [self setValue:token forHTTPHeaderField:@"jwt"];
+        }
+    }
+    return self;
+}
+
+#pragma mark - SETTERS & GETTERS
 
 @synthesize token = _token;
 
@@ -40,7 +54,7 @@ NSString * const kSMDefaultsKeyToken = @"token";
     return _token;
 }
 
-#pragma mark - Public Methods
+#pragma mark - PUBLIC METHODS
 
 + (NSURLSessionDataTask *)matchesWithCompletion:(void(^)(NSArray *matches, NSString *errorString))completion {
     __block void(^completionBlock)(NSArray *matches, NSString *errorString) = completion;
@@ -204,6 +218,48 @@ NSString * const kSMDefaultsKeyToken = @"token";
     }];
 }
 
++ (NSURLSessionDataTask *)publicBrowsingContaining:(NSString *)query
+                              forPlatform:(NSString *)platform
+                                 atOffset:(NSInteger)offset
+                               completion:(void(^)(NSArray *objects, NSInteger itemsLeft, NSString *errorString))completion
+{
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    
+    if (query) {
+        params[@"q"] = query;
+    }
+    
+    if (platform) {
+        params[@"p"] = platform;
+    }
+    
+    if (offset > 0) {
+        params[@"s"] = @(offset);
+    }
+    
+    if ([params count] == 0) {
+        params = nil;
+    }
+    
+    __block void(^completionBlock)(NSArray *objects, NSInteger itemsLeft, NSString *errorString) = completion;
+    return [self performJSONRequestAtPath:@"browse" withMethod:@"GET" andParameters:params sendBodyAsJSON:NO completion:^(NSDictionary *JSONDic, NSString *errorString) {
+        NSInteger itemsLeft = 0;
+        NSMutableArray *objects = nil;
+        if (!errorString) {
+            itemsLeft = [JSONDic[@"items_left"] integerValue];
+            NSArray *tmpObjects = JSONDic[@"items"];
+            if (tmpObjects) {
+                objects = [NSMutableArray array];
+                for (NSDictionary *dic in tmpObjects) {
+                    [objects addObject:[NSMutableDictionary dictionaryWithDictionary:dic]];
+                }
+            }
+        }
+        
+        completionBlock(objects, itemsLeft, errorString);
+    }];
+}
+
 + (NSURLSessionDataTask *)gamesContaining:(NSString *)query
                               forPlatform:(NSString *)platform
                                  atOffset:(NSInteger)offset
@@ -246,7 +302,7 @@ NSString * const kSMDefaultsKeyToken = @"token";
     }];
 }
 
-#pragma mark - Private Methods
+#pragma mark - PRIVATE METHODS
 
 + (NSString *)tokenByProcessingResponse:(NSString **)errorString_p data:(NSData *)data profileDic:(NSDictionary **)profileDic_p
 {
@@ -353,22 +409,6 @@ NSString * const kSMDefaultsKeyToken = @"token";
     }
     
     return retVal;
-}
-
-#pragma mark - Life Cycle
-
-- (instancetype)init
-{
-    self = [super init];
-    if (self) {
-        self.baseURLString = @"https://cryptic-savannah-2534.herokuapp.com/api/";
-        [self setValue:@"someFancyKey" forHTTPHeaderField:@"key"];
-        NSString *token = [self token];
-        if (token) {
-            [self setValue:token forHTTPHeaderField:@"jwt"];
-        }
-    }
-    return self;
 }
 
 @end

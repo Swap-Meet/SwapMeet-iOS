@@ -305,16 +305,16 @@
 		9A0F68721A1A7A2D0088146F /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				281B3C131A1BEB7F003C9D1C /* CoreDataController.h */,
+				281B3C141A1BEB7F003C9D1C /* CoreDataController.m */,
 				9A9D661F1A1EE8590027D5E2 /* GDCacheController.h */,
 				9A9D66201A1EE8590027D5E2 /* GDCacheController.m */,
-				0A7D592B1A1C453F00036AC8 /* SMTabBarController.h */,
-				0A7D592C1A1C453F00036AC8 /* SMTabBarController.m */,
 				9A0F68771A1ABBA90088146F /* SMNetworking.h */,
 				9A0F68781A1ABBA90088146F /* SMNetworking.m */,
 				9A0F68741A1A7B190088146F /* SMNetworkController.h */,
 				9A0F68751A1A7B190088146F /* SMNetworkController.m */,
-				281B3C131A1BEB7F003C9D1C /* CoreDataController.h */,
-				281B3C141A1BEB7F003C9D1C /* CoreDataController.m */,
+				0A7D592B1A1C453F00036AC8 /* SMTabBarController.h */,
+				0A7D592C1A1C453F00036AC8 /* SMTabBarController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
