@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SMSwapBoxViewController : UIViewController
+@interface SMSwapBoxViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 @end

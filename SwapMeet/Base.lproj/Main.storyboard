@@ -8,7 +8,6 @@
         <!--Matches-->
         <scene sceneID="nqS-Br-kP9">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="M0H-Rz-YJb" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="9Rh-R8-wMw" customClass="SMMatchesViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="8xh-Rz-3Wq"/>
@@ -36,6 +35,7 @@
                         <outlet property="tableView" destination="aDv-a1-aUi" id="gkX-P4-IQ0"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="M0H-Rz-YJb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1679" y="3163"/>
         </scene>
@@ -266,46 +266,6 @@
             </objects>
             <point key="canvasLocation" x="2476" y="1013"/>
         </scene>
-        <!--Swap Box View Controller-->
-        <scene sceneID="37V-yz-yro">
-            <objects>
-                <viewController storyboardIdentifier="SWAP_BOX_VC" id="7hI-d3-6DX" customClass="SMSwapBoxViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="qof-cX-Ems"/>
-                        <viewControllerLayoutGuide type="bottom" id="x4X-Xa-pOF"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="vE9-bT-xpI">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="gRG-ig-Pcf">
-                                <rect key="frame" x="0.0" y="158" width="600" height="600"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </tableView>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="kV6-z6-plq">
-                                <rect key="frame" x="234" y="52" width="123" height="29"/>
-                                <segments>
-                                    <segment title="First"/>
-                                    <segment title="Second"/>
-                                </segments>
-                            </segmentedControl>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MtI-Tf-flc">
-                                <rect key="frame" x="37" y="90" width="48" height="30"/>
-                                <state key="normal" title="Cancel">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="cancelButtonPressed:" destination="7hI-d3-6DX" eventType="touchUpInside" id="MOY-Wf-g5C"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="bob-qc-7h5" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1084" y="2433"/>
-        </scene>
         <!--Trade Proposal View Controller-->
         <scene sceneID="TKM-yw-YnW">
             <objects>
@@ -425,7 +385,6 @@
         <!--Games View Controller-->
         <scene sceneID="XYp-Tr-tdH">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="HiA-Bc-RkS" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="kDX-me-hVu" customClass="SMGamesViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="C9J-9S-1N3"/>
@@ -467,37 +426,9 @@
                         <outlet property="tableView" destination="Zqz-Bf-Bj6" id="tpm-Qj-Fy7"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HiA-Bc-RkS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1021" y="3163"/>
-        </scene>
-        <!--Search Filter View Controller-->
-        <scene sceneID="6qe-jD-7Ww">
-            <objects>
-                <viewController storyboardIdentifier="SEARCH_FILTER_VC" id="wEi-57-HY8" customClass="SMSearchFilterViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="Zqx-a9-d0S"/>
-                        <viewControllerLayoutGuide type="bottom" id="HLM-ld-vhi"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="ejz-eo-0aY">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0N0-Vw-RfY">
-                                <rect key="frame" x="38" y="68" width="48" height="30"/>
-                                <state key="normal" title="Cancel">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="cancelButtonPressed:" destination="wEi-57-HY8" eventType="touchUpInside" id="yXF-L8-gre"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="cTP-sg-mkT" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1805" y="319"/>
         </scene>
         <!--<Swap Meet Logo>-->
         <scene sceneID="UH3-VE-eS5">

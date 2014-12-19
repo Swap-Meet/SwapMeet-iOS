@@ -8,10 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		0A1178F01A43541300E7C520 /* SMTradeRequestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A1178EF1A43541300E7C520 /* SMTradeRequestViewController.m */; };
-		0A1178F31A435B1E00E7C520 /* SMSwapBoxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A1178F21A435B1E00E7C520 /* SMSwapBoxViewController.m */; };
 		0A1178F61A43607200E7C520 /* SMTradeProposalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A1178F51A43607200E7C520 /* SMTradeProposalViewController.m */; };
 		0A1178F91A43627F00E7C520 /* SMTradeGameDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A1178F81A43627F00E7C520 /* SMTradeGameDetailsViewController.m */; };
-		0A1178FC1A4363A100E7C520 /* SMSearchFilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A1178FB1A4363A100E7C520 /* SMSearchFilterViewController.m */; };
+		0A1179001A4376A300E7C520 /* SMSearchFilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A1178FE1A4376A300E7C520 /* SMSearchFilterViewController.m */; };
+		0A1179011A4376A300E7C520 /* SMSearchFilterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A1178FF1A4376A300E7C520 /* SMSearchFilterViewController.xib */; };
 		0A1F9D4C1A1F994F0085A61A /* MHTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A1F9D4B1A1F994F0085A61A /* MHTextField.m */; };
 		0A1F9D4F1A1F9D7B0085A61A /* SMTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A1F9D4E1A1F9D7B0085A61A /* SMTextField.m */; };
 		0A3BEE681A3B7873000BEC48 /* SMGameDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A3BEE671A3B7873000BEC48 /* SMGameDetailsViewController.m */; };
@@ -19,6 +19,8 @@
 		0A8BD5B81A1AD3E700D5A8BB /* SMLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A8BD5B61A1AD3E700D5A8BB /* SMLoginViewController.m */; };
 		0A8BD5B91A1AD3E700D5A8BB /* SMLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A8BD5B71A1AD3E700D5A8BB /* SMLoginViewController.xib */; };
 		0A91BD9F1A1FCDE800C8AC79 /* default-user-image.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A91BD9E1A1FCDE800C8AC79 /* default-user-image.png */; };
+		0A9B37CB1A43A551000DE07F /* SMSwapBoxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A9B37C91A43A551000DE07F /* SMSwapBoxViewController.m */; };
+		0A9B37CC1A43A551000DE07F /* SMSwapBoxViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A9B37CA1A43A551000DE07F /* SMSwapBoxViewController.xib */; };
 		0AA8B7781A1A75ED00A23C39 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AA8B7771A1A75ED00A23C39 /* main.m */; };
 		0AA8B77B1A1A75ED00A23C39 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AA8B77A1A1A75ED00A23C39 /* AppDelegate.m */; };
 		0AA8B77E1A1A75EE00A23C39 /* SwapMeet.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0AA8B77C1A1A75EE00A23C39 /* SwapMeet.xcdatamodeld */; };
@@ -79,14 +81,14 @@
 /* Begin PBXFileReference section */
 		0A1178EE1A43541300E7C520 /* SMTradeRequestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMTradeRequestViewController.h; sourceTree = "<group>"; };
 		0A1178EF1A43541300E7C520 /* SMTradeRequestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMTradeRequestViewController.m; sourceTree = "<group>"; };
-		0A1178F11A435B1E00E7C520 /* SMSwapBoxViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMSwapBoxViewController.h; sourceTree = "<group>"; };
-		0A1178F21A435B1E00E7C520 /* SMSwapBoxViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMSwapBoxViewController.m; sourceTree = "<group>"; };
 		0A1178F41A43607200E7C520 /* SMTradeProposalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMTradeProposalViewController.h; sourceTree = "<group>"; };
 		0A1178F51A43607200E7C520 /* SMTradeProposalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMTradeProposalViewController.m; sourceTree = "<group>"; };
 		0A1178F71A43627F00E7C520 /* SMTradeGameDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMTradeGameDetailsViewController.h; sourceTree = "<group>"; };
 		0A1178F81A43627F00E7C520 /* SMTradeGameDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMTradeGameDetailsViewController.m; sourceTree = "<group>"; };
-		0A1178FA1A4363A100E7C520 /* SMSearchFilterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMSearchFilterViewController.h; sourceTree = "<group>"; };
-		0A1178FB1A4363A100E7C520 /* SMSearchFilterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMSearchFilterViewController.m; sourceTree = "<group>"; };
+		0A1178FD1A4376A300E7C520 /* SMSearchFilterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMSearchFilterViewController.h; sourceTree = "<group>"; };
+		0A1178FE1A4376A300E7C520 /* SMSearchFilterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMSearchFilterViewController.m; sourceTree = "<group>"; };
+		0A1178FF1A4376A300E7C520 /* SMSearchFilterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SMSearchFilterViewController.xib; sourceTree = "<group>"; };
+		0A1179051A4387F100E7C520 /* SMSearchDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMSearchDelegate.h; sourceTree = "<group>"; };
 		0A1F9D4A1A1F994F0085A61A /* MHTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MHTextField.h; sourceTree = "<group>"; };
 		0A1F9D4B1A1F994F0085A61A /* MHTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MHTextField.m; sourceTree = "<group>"; };
 		0A1F9D4D1A1F9D7B0085A61A /* SMTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMTextField.h; sourceTree = "<group>"; };
@@ -99,6 +101,9 @@
 		0A8BD5B61A1AD3E700D5A8BB /* SMLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMLoginViewController.m; sourceTree = "<group>"; };
 		0A8BD5B71A1AD3E700D5A8BB /* SMLoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SMLoginViewController.xib; sourceTree = "<group>"; };
 		0A91BD9E1A1FCDE800C8AC79 /* default-user-image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "default-user-image.png"; sourceTree = "<group>"; };
+		0A9B37C81A43A551000DE07F /* SMSwapBoxViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMSwapBoxViewController.h; sourceTree = "<group>"; };
+		0A9B37C91A43A551000DE07F /* SMSwapBoxViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMSwapBoxViewController.m; sourceTree = "<group>"; };
+		0A9B37CA1A43A551000DE07F /* SMSwapBoxViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SMSwapBoxViewController.xib; sourceTree = "<group>"; };
 		0AA8B7721A1A75ED00A23C39 /* SwapMeet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwapMeet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AA8B7761A1A75ED00A23C39 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0AA8B7771A1A75ED00A23C39 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -210,6 +215,7 @@
 				9A0F68721A1A7A2D0088146F /* Controllers */,
 				0AA8B7791A1A75ED00A23C39 /* AppDelegate.h */,
 				0AA8B77A1A1A75ED00A23C39 /* AppDelegate.m */,
+				0A1179051A4387F100E7C520 /* SMSearchDelegate.h */,
 				287BF0C81A1A7BF1008C3CCD /* SMMatchesViewController.h */,
 				287BF0C91A1A7BF1008C3CCD /* SMMatchesViewController.m */,
 				287BF0CB1A1AC5A7008C3CCD /* SMGamesViewController.h */,
@@ -266,14 +272,14 @@
 				0A8BD5B61A1AD3E700D5A8BB /* SMLoginViewController.m */,
 				287BF0BF1A1A7BA9008C3CCD /* SMProfileViewController.h */,
 				287BF0C01A1A7BA9008C3CCD /* SMProfileViewController.m */,
-				0A1178FA1A4363A100E7C520 /* SMSearchFilterViewController.h */,
-				0A1178FB1A4363A100E7C520 /* SMSearchFilterViewController.m */,
+				0A1178FD1A4376A300E7C520 /* SMSearchFilterViewController.h */,
+				0A1178FE1A4376A300E7C520 /* SMSearchFilterViewController.m */,
 				287BF0C51A1A7BDB008C3CCD /* SMSearchViewController.h */,
 				287BF0C61A1A7BDB008C3CCD /* SMSearchViewController.m */,
 				0AFEF7DE1A1D01B900F5B83A /* SMSignUpViewController.h */,
 				0AFEF7DF1A1D01B900F5B83A /* SMSignUpViewController.m */,
-				0A1178F11A435B1E00E7C520 /* SMSwapBoxViewController.h */,
-				0A1178F21A435B1E00E7C520 /* SMSwapBoxViewController.m */,
+				0A9B37C81A43A551000DE07F /* SMSwapBoxViewController.h */,
+				0A9B37C91A43A551000DE07F /* SMSwapBoxViewController.m */,
 				0A1178F71A43627F00E7C520 /* SMTradeGameDetailsViewController.h */,
 				0A1178F81A43627F00E7C520 /* SMTradeGameDetailsViewController.m */,
 				0A1178F41A43607200E7C520 /* SMTradeProposalViewController.h */,
@@ -291,7 +297,9 @@
 				0AA8B7871A1A75EE00A23C39 /* LaunchScreen.xib */,
 				287BF0D01A1ACA2C008C3CCD /* SMAddGameViewController.xib */,
 				0A8BD5B71A1AD3E700D5A8BB /* SMLoginViewController.xib */,
+				0A1178FF1A4376A300E7C520 /* SMSearchFilterViewController.xib */,
 				0AFEF7E01A1D01B900F5B83A /* SMSignUpViewController.xib */,
+				0A9B37CA1A43A551000DE07F /* SMSwapBoxViewController.xib */,
 				282E8C671A1E8CD300A57BC0 /* MatchTableViewCell.xib */,
 				282E8C651A1E8CD300A57BC0 /* MatchTableViewCell.h */,
 				282E8C661A1E8CD300A57BC0 /* MatchTableViewCell.m */,
@@ -479,6 +487,8 @@
 				0AA8B7841A1A75EE00A23C39 /* Main.storyboard in Resources */,
 				0AA8B7891A1A75EE00A23C39 /* LaunchScreen.xib in Resources */,
 				0A8BD5B91A1AD3E700D5A8BB /* SMLoginViewController.xib in Resources */,
+				0A9B37CC1A43A551000DE07F /* SMSwapBoxViewController.xib in Resources */,
+				0A1179011A4376A300E7C520 /* SMSearchFilterViewController.xib in Resources */,
 				287BF0D21A1ACA2C008C3CCD /* SMAddGameViewController.xib in Resources */,
 				0AA8B7861A1A75EE00A23C39 /* Images.xcassets in Resources */,
 				281B3C1A1A1D13A2003C9D1C /* SearchTableViewCell.xib in Resources */,
@@ -511,7 +521,8 @@
 				9A0F68761A1A7B190088146F /* SMNetworkController.m in Sources */,
 				0A1F9D4C1A1F994F0085A61A /* MHTextField.m in Sources */,
 				0AAE32801A1AB78C0022476E /* Game.m in Sources */,
-				0A1178FC1A4363A100E7C520 /* SMSearchFilterViewController.m in Sources */,
+				0A1179001A4376A300E7C520 /* SMSearchFilterViewController.m in Sources */,
+				0A9B37CB1A43A551000DE07F /* SMSwapBoxViewController.m in Sources */,
 				0A7D592D1A1C453F00036AC8 /* SMTabBarController.m in Sources */,
 				0AA8B77B1A1A75ED00A23C39 /* AppDelegate.m in Sources */,
 				0AFEF7E11A1D01B900F5B83A /* SMSignUpViewController.m in Sources */,
@@ -524,7 +535,6 @@
 				9A3AA5661A1DC1C400F23624 /* UIImage+SwapMeet.m in Sources */,
 				287BF0CD1A1AC5A7008C3CCD /* SMGamesViewController.m in Sources */,
 				281B3C151A1BEB7F003C9D1C /* CoreDataController.m in Sources */,
-				0A1178F31A435B1E00E7C520 /* SMSwapBoxViewController.m in Sources */,
 				282E8C681A1E8CD300A57BC0 /* MatchTableViewCell.m in Sources */,
 				0A3BEE681A3B7873000BEC48 /* SMGameDetailsViewController.m in Sources */,
 				0AA8B7781A1A75ED00A23C39 /* main.m in Sources */,

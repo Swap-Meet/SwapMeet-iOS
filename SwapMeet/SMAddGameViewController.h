@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <CoreImage/CoreImage.h>
 
-@interface SMAddGameViewController : UIViewController <UIPickerViewDelegate, UIPickerViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface SMAddGameViewController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *titleTextView;
 @property (weak, nonatomic) IBOutlet UIPickerView *consolePickerView;

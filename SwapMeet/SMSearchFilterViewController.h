@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SMSearchDelegate.h"
 
-@interface SMSearchFilterViewController : UIViewController
+@interface SMSearchFilterViewController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate>
+
+@property (assign, nonatomic) id<SMSearchDelegate> delegate;
 
 @end

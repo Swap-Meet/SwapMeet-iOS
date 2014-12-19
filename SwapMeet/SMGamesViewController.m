@@ -39,11 +39,6 @@
     [self.tableView reloadData];
 }
 
-- (void)addButtonClicked:(id)sender {
-    SMAddGameViewController *addGameVC = [[SMAddGameViewController alloc] initWithNibName:@"SMAddGameViewController" bundle:[NSBundle mainBundle]];
-    [self presentViewController:addGameVC animated:true completion:nil];
-}
-
 - (void)favoriteAdded:(NSNotification *)notification {
     NSLog(@"Favorite Added");
 }

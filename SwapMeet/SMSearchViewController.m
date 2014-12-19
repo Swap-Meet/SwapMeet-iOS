@@ -10,6 +10,7 @@
 #import "SMGameDetailsViewController.h"
 #import "SMSearchFilterViewController.h"
 #import "SMSwapBoxViewController.h"
+#import "SMLoginViewController.h"
 #import "SMNetworking.h"
 #import "SearchTableViewCell.h"
 #import "Game.h"
@@ -22,11 +23,13 @@
 }
 
 @property (strong, nonatomic) NSString *token;
-@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
-
 @property (nonatomic) NSURLSessionDataTask *searchTask;
 @property BOOL canLoadMore;
+@property (strong, nonatomic) NSString *consoleFilter;
+@property (strong, nonatomic) SMSearchFilterViewController *searchFilterViewController;
+
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end
 
@@ -34,6 +37,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.searchFilterViewController = [[SMSearchFilterViewController alloc] init];
     
     self.token = [[NSUserDefaults standardUserDefaults] objectForKey:kSMDefaultsKeyToken];
     self.gamesArray = [NSMutableArray array];
@@ -43,7 +48,7 @@
     self.tableView.estimatedRowHeight = 100;
     
     _canLoadMore = YES;
-    [self searchAtOffset:0];
+    [self searchAtOffset:0 forPlatform:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addedFavorite:) name:@"FAVORITE_ADDED" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deletedFavorite:) name:@"FAVORITE_DELETED" object:nil];
@@ -124,7 +129,7 @@
     }
     
     if (indexPath.row == [_gamesArray count] - 2) {
-        [self searchAtOffset:[_gamesArray count]];
+        [self searchAtOffset:_gamesArray.count forPlatform:self.consoleFilter];
     }
 }
 
@@ -133,16 +138,33 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    SMGameDetailsViewController *gameDetails = [self.storyboard instantiateViewControllerWithIdentifier:@"GAME_DETAILS_VC"];
-//    SearchTableViewCell *searchCell = (SearchTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
-    NSDictionary *gameDict = _gamesArray[indexPath.row];
-    //searchCell.selectedGame = gameDict;
-    gameDetails.selectedGame = gameDict;
-    NSLog(@"%@", gameDict);
-    
-//    [searchCell startStarUpdate];
-    
-    [self.navigationController pushViewController:gameDetails animated:YES];
+    if (!self.token) {
+        NSLog(@"Alert view when not logged in");
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Login required" message:@"Please log in to view games." preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *cancelButton = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
+        UIAlertAction *loginButton = [UIAlertAction actionWithTitle:@"Login" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            // Instantiate the view after login?
+            self.targetTab = 0;
+            SMLoginViewController *loginViewController = [[SMLoginViewController alloc] initWithNibName:@"SMLoginViewController" bundle:[NSBundle mainBundle]];
+            UINavigationController *modalNavController = [[UINavigationController alloc] initWithRootViewController:loginViewController];
+            [self presentViewController:modalNavController animated:YES completion:nil];
+        }];
+        
+        [alert addAction:cancelButton];
+        [alert addAction:loginButton];
+        [self presentViewController:alert animated:YES completion:nil];
+    } else {
+        SMGameDetailsViewController *gameDetails = [self.storyboard instantiateViewControllerWithIdentifier:@"GAME_DETAILS_VC"];
+        //    SearchTableViewCell *searchCell = (SearchTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+        NSDictionary *gameDict = _gamesArray[indexPath.row];
+        //searchCell.selectedGame = gameDict;
+        gameDetails.selectedGame = gameDict;
+        NSLog(@"%@", gameDict);
+        
+        //    [searchCell startStarUpdate];
+        
+        [self.navigationController pushViewController:gameDetails animated:YES];
+    }
 }
 
 #pragma mark - SEARCH BAR DELEGATE
@@ -152,18 +174,40 @@
     [_searchTask cancel];
     _gamesArray = [NSMutableArray array];
     hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [self searchAtOffset:0];
+    [self searchAtOffset:0 forPlatform:self.consoleFilter];
+}
+
+#pragma mark - SEARCH DELEGATE
+
+- (void)searchFilterConfirmed:(NSString *)consoleFilter {
+    self.consoleFilter = consoleFilter;
+    //NSLog(@"Delegate: %@, Variable: %@", consoleFilter, self.consoleFilter);
+    [_searchTask cancel];
+    _gamesArray = [NSMutableArray array];
+    hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [self searchAtOffset:0 forPlatform:self.consoleFilter];
 }
 
 #pragma mark - PRIVATE METHODS
 
-- (void)searchAtOffset:(NSInteger)offset {
-    NSString *searchText = _searchBar.text;
+- (void)searchAtOffset:(NSInteger)offset forPlatform:(NSString *)platform {
+    NSString *searchText;
     _canLoadMore = NO;
+    
+    if ([_searchBar.text isEqualToString:@""]) {
+        searchText = nil;
+    } else {
+        searchText = _searchBar.text;
+    }
+    if ([platform isEqualToString:@""]) {
+        platform = nil;
+    }
+
+    //NSLog(@"%@", searchText);
     
     if (!self.token) {
         NSLog(@"Public Browsing...");
-        _searchTask = [SMNetworking publicBrowsingContaining:searchText forPlatform:nil atOffset:offset completion:^(NSArray *objects, NSInteger itemsLeft, NSString *errorString) {
+        _searchTask = [SMNetworking publicBrowsingContaining:searchText forPlatform:platform atOffset:offset completion:^(NSArray *objects, NSInteger itemsLeft, NSString *errorString) {
             _canLoadMore = itemsLeft > 0;
             NSLog(@"Count: %ld. Items left: %ld", (long)[objects count], (long)itemsLeft);
             [hud hide:YES];
@@ -178,7 +222,7 @@
         }];
     } else {
         NSLog(@"Authenticated Search...");
-        _searchTask = [SMNetworking gamesContaining:searchText forPlatform:nil atOffset:offset completion:^(NSArray *objects, NSInteger itemsLeft, NSString *errorString) {
+        _searchTask = [SMNetworking gamesContaining:searchText forPlatform:platform atOffset:offset completion:^(NSArray *objects, NSInteger itemsLeft, NSString *errorString) {
             _canLoadMore = itemsLeft > 0;
             NSLog(@"Count: %ld. Items left: %ld", (long)[objects count], (long)itemsLeft);
             [hud hide:YES];
@@ -276,12 +320,13 @@
 #pragma mark - NAVIGATION
 
 - (IBAction)swapBoxButtonPressed:(id)sender {
-    SMSwapBoxViewController *swapBoxViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"SWAP_BOX_VC"];
+    SMSwapBoxViewController *swapBoxViewController = [[SMSwapBoxViewController alloc] initWithNibName:@"SMSwapBoxViewController" bundle:[NSBundle mainBundle]];
     [self presentViewController:swapBoxViewController animated:YES completion:nil];
 }
 
 - (IBAction)filterButtonPressed:(id)sender {
-    SMSearchFilterViewController *searchFilterViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"SEARCH_FILTER_VC"];
+    SMSearchFilterViewController *searchFilterViewController = [[SMSearchFilterViewController alloc] initWithNibName:@"SMSearchFilterViewController" bundle:[NSBundle mainBundle]];
+    searchFilterViewController.delegate = self;
     [self presentViewController:searchFilterViewController animated:YES completion:nil];
 }
 

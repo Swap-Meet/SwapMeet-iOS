@@ -10,9 +10,11 @@
 #import "CoreDataController.h"
 #import "SMProfileViewController.h"
 #import "SMNetworking.h"
-#import "SMGamesViewController.h"
+//#import "SMGamesViewController.h"
 
 @interface AppDelegate ()
+
+@property (strong, nonatomic) UINavigationController *navigationController;
 
 @end
 
@@ -145,20 +147,21 @@
             UIAlertAction *cancelButton = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
             UIAlertAction *loginButton = [UIAlertAction actionWithTitle:@"Login" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                 self.targetTab = 1;
-                self.navigationController = [[UINavigationController alloc] initWithRootViewController:[[SMLoginViewController alloc] initWithNibName:@"SMLoginViewController" bundle:[NSBundle mainBundle]]];
-                [self.window.rootViewController presentViewController:self.navigationController animated:true completion:nil];
+                SMLoginViewController *loginViewController = [[SMLoginViewController alloc] initWithNibName:@"SMLoginViewController" bundle:[NSBundle mainBundle]];
+                self.navigationController = [[UINavigationController alloc] initWithRootViewController:loginViewController];
+                [self.window.rootViewController presentViewController:self.navigationController animated:YES completion:nil];
             }];
             
             [alert addAction:cancelButton];
             [alert addAction:loginButton];
-            [self.window.rootViewController presentViewController:alert animated:true completion:nil];
-            return false;
+            [self.window.rootViewController presentViewController:alert animated:YES completion:nil];
+            return NO;
         } else {
             //NSLog(@"Token exists");
-            return true;
+            return YES;
         }
     } else {
-        return true;
+        return YES;
     }
 }
 
