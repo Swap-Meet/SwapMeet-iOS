@@ -21,6 +21,10 @@
 		0A91BD9F1A1FCDE800C8AC79 /* default-user-image.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A91BD9E1A1FCDE800C8AC79 /* default-user-image.png */; };
 		0A9B37CB1A43A551000DE07F /* SMSwapBoxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A9B37C91A43A551000DE07F /* SMSwapBoxViewController.m */; };
 		0A9B37CC1A43A551000DE07F /* SMSwapBoxViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A9B37CA1A43A551000DE07F /* SMSwapBoxViewController.xib */; };
+		0A9B37D01A43FCB6000DE07F /* SwapTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A9B37CE1A43FCB6000DE07F /* SwapTableViewCell.m */; };
+		0A9B37D11A43FCB6000DE07F /* SwapTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A9B37CF1A43FCB6000DE07F /* SwapTableViewCell.xib */; };
+		0A9B37DA1A449268000DE07F /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A9B37D91A449268000DE07F /* logo.png */; };
+		0A9B37E01A44B39B000DE07F /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A9B37DF1A44B39B000DE07F /* UIColor+Hex.m */; };
 		0AA8B7781A1A75ED00A23C39 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AA8B7771A1A75ED00A23C39 /* main.m */; };
 		0AA8B77B1A1A75ED00A23C39 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AA8B77A1A1A75ED00A23C39 /* AppDelegate.m */; };
 		0AA8B77E1A1A75EE00A23C39 /* SwapMeet.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0AA8B77C1A1A75EE00A23C39 /* SwapMeet.xcdatamodeld */; };
@@ -104,6 +108,16 @@
 		0A9B37C81A43A551000DE07F /* SMSwapBoxViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMSwapBoxViewController.h; sourceTree = "<group>"; };
 		0A9B37C91A43A551000DE07F /* SMSwapBoxViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMSwapBoxViewController.m; sourceTree = "<group>"; };
 		0A9B37CA1A43A551000DE07F /* SMSwapBoxViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SMSwapBoxViewController.xib; sourceTree = "<group>"; };
+		0A9B37CD1A43FCB6000DE07F /* SwapTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwapTableViewCell.h; sourceTree = "<group>"; };
+		0A9B37CE1A43FCB6000DE07F /* SwapTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwapTableViewCell.m; sourceTree = "<group>"; };
+		0A9B37CF1A43FCB6000DE07F /* SwapTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SwapTableViewCell.xib; sourceTree = "<group>"; };
+		0A9B37D31A449207000DE07F /* ABeeZee-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ABeeZee-Regular.otf"; sourceTree = "<group>"; };
+		0A9B37D41A449207000DE07F /* Gasalt-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gasalt-Black.ttf"; sourceTree = "<group>"; };
+		0A9B37D51A449207000DE07F /* Gasalt-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gasalt-Regular.ttf"; sourceTree = "<group>"; };
+		0A9B37D61A449207000DE07F /* Zorque.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Zorque.ttf; sourceTree = "<group>"; };
+		0A9B37D91A449268000DE07F /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
+		0A9B37DE1A44B39B000DE07F /* UIColor+Hex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Hex.h"; sourceTree = "<group>"; };
+		0A9B37DF1A44B39B000DE07F /* UIColor+Hex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Hex.m"; sourceTree = "<group>"; };
 		0AA8B7721A1A75ED00A23C39 /* SwapMeet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwapMeet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AA8B7761A1A75ED00A23C39 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0AA8B7771A1A75ED00A23C39 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -185,6 +199,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0A9B37D71A449210000DE07F /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				0A9B37D31A449207000DE07F /* ABeeZee-Regular.otf */,
+				0A9B37D41A449207000DE07F /* Gasalt-Black.ttf */,
+				0A9B37D51A449207000DE07F /* Gasalt-Regular.ttf */,
+				0A9B37D61A449207000DE07F /* Zorque.ttf */,
+			);
+			name = Fonts;
+			sourceTree = "<group>";
+		};
+		0A9B37D81A44921E000DE07F /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				0A91BD9E1A1FCDE800C8AC79 /* default-user-image.png */,
+				0A9B37D91A449268000DE07F /* logo.png */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
 		0AA8B7691A1A75ED00A23C39 = {
 			isa = PBXGroup;
 			children = (
@@ -216,6 +250,9 @@
 				0AA8B7791A1A75ED00A23C39 /* AppDelegate.h */,
 				0AA8B77A1A1A75ED00A23C39 /* AppDelegate.m */,
 				0A1179051A4387F100E7C520 /* SMSearchDelegate.h */,
+				282E8C671A1E8CD300A57BC0 /* MatchTableViewCell.xib */,
+				282E8C651A1E8CD300A57BC0 /* MatchTableViewCell.h */,
+				282E8C661A1E8CD300A57BC0 /* MatchTableViewCell.m */,
 				287BF0C81A1A7BF1008C3CCD /* SMMatchesViewController.h */,
 				287BF0C91A1A7BF1008C3CCD /* SMMatchesViewController.m */,
 				287BF0CB1A1AC5A7008C3CCD /* SMGamesViewController.h */,
@@ -231,7 +268,8 @@
 		0AA8B7751A1A75ED00A23C39 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				0A91BD9E1A1FCDE800C8AC79 /* default-user-image.png */,
+				0A9B37D71A449210000DE07F /* Fonts */,
+				0A9B37D81A44921E000DE07F /* Images */,
 				0AA8B7761A1A75ED00A23C39 /* Info.plist */,
 				0AA8B7771A1A75ED00A23C39 /* main.m */,
 				0A1F9D4A1A1F994F0085A61A /* MHTextField.h */,
@@ -240,6 +278,8 @@
 				0ACEA2D01A1DC46A00FC9E15 /* SMConstants.m */,
 				0A1F9D4D1A1F9D7B0085A61A /* SMTextField.h */,
 				0A1F9D4E1A1F9D7B0085A61A /* SMTextField.m */,
+				0A9B37DE1A44B39B000DE07F /* UIColor+Hex.h */,
+				0A9B37DF1A44B39B000DE07F /* UIColor+Hex.m */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -300,12 +340,12 @@
 				0A1178FF1A4376A300E7C520 /* SMSearchFilterViewController.xib */,
 				0AFEF7E01A1D01B900F5B83A /* SMSignUpViewController.xib */,
 				0A9B37CA1A43A551000DE07F /* SMSwapBoxViewController.xib */,
-				282E8C671A1E8CD300A57BC0 /* MatchTableViewCell.xib */,
-				282E8C651A1E8CD300A57BC0 /* MatchTableViewCell.h */,
-				282E8C661A1E8CD300A57BC0 /* MatchTableViewCell.m */,
 				281B3C181A1D13A2003C9D1C /* SearchTableViewCell.xib */,
 				281B3C161A1D13A2003C9D1C /* SearchTableViewCell.h */,
 				281B3C171A1D13A2003C9D1C /* SearchTableViewCell.m */,
+				0A9B37CF1A43FCB6000DE07F /* SwapTableViewCell.xib */,
+				0A9B37CD1A43FCB6000DE07F /* SwapTableViewCell.h */,
+				0A9B37CE1A43FCB6000DE07F /* SwapTableViewCell.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -483,10 +523,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A9B37DA1A449268000DE07F /* logo.png in Resources */,
 				0AFEF7E21A1D01B900F5B83A /* SMSignUpViewController.xib in Resources */,
 				0AA8B7841A1A75EE00A23C39 /* Main.storyboard in Resources */,
 				0AA8B7891A1A75EE00A23C39 /* LaunchScreen.xib in Resources */,
 				0A8BD5B91A1AD3E700D5A8BB /* SMLoginViewController.xib in Resources */,
+				0A9B37D11A43FCB6000DE07F /* SwapTableViewCell.xib in Resources */,
 				0A9B37CC1A43A551000DE07F /* SMSwapBoxViewController.xib in Resources */,
 				0A1179011A4376A300E7C520 /* SMSearchFilterViewController.xib in Resources */,
 				287BF0D21A1ACA2C008C3CCD /* SMAddGameViewController.xib in Resources */,
@@ -524,6 +566,7 @@
 				0A1179001A4376A300E7C520 /* SMSearchFilterViewController.m in Sources */,
 				0A9B37CB1A43A551000DE07F /* SMSwapBoxViewController.m in Sources */,
 				0A7D592D1A1C453F00036AC8 /* SMTabBarController.m in Sources */,
+				0A9B37D01A43FCB6000DE07F /* SwapTableViewCell.m in Sources */,
 				0AA8B77B1A1A75ED00A23C39 /* AppDelegate.m in Sources */,
 				0AFEF7E11A1D01B900F5B83A /* SMSignUpViewController.m in Sources */,
 				287BF0D11A1ACA2C008C3CCD /* SMAddGameViewController.m in Sources */,
@@ -531,6 +574,7 @@
 				0AA8B77E1A1A75EE00A23C39 /* SwapMeet.xcdatamodeld in Sources */,
 				9A9D66211A1EE8590027D5E2 /* GDCacheController.m in Sources */,
 				0A8BD5B81A1AD3E700D5A8BB /* SMLoginViewController.m in Sources */,
+				0A9B37E01A44B39B000DE07F /* UIColor+Hex.m in Sources */,
 				0A1178F61A43607200E7C520 /* SMTradeProposalViewController.m in Sources */,
 				9A3AA5661A1DC1C400F23624 /* UIImage+SwapMeet.m in Sources */,
 				287BF0CD1A1AC5A7008C3CCD /* SMGamesViewController.m in Sources */,

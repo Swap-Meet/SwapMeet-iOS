@@ -10,7 +10,6 @@
 #import "CoreDataController.h"
 #import "SMProfileViewController.h"
 #import "SMNetworking.h"
-//#import "SMGamesViewController.h"
 
 @interface AppDelegate ()
 

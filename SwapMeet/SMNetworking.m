@@ -260,7 +260,7 @@ NSString * const kSMDefaultsKeyToken = @"token";
     }];
 }
 
-+ (NSURLSessionDataTask *)gamesContaining:(NSString *)query
++ (NSURLSessionDataTask *)searchForGamesContaining:(NSString *)query
                               forPlatform:(NSString *)platform
                                  atOffset:(NSInteger)offset
                                completion:(void(^)(NSArray *objects, NSInteger itemsLeft, NSString *errorString))completion
@@ -299,6 +299,43 @@ NSString * const kSMDefaultsKeyToken = @"token";
         }
         
         completionBlock(objects, itemsLeft, errorString);        
+    }];
+}
+
++ (NSURLSessionDataTask *)incomingRequestsWithCompletion:(void(^)(NSArray *objects, NSString *errorString))completion {
+    __block void(^completionBlock)(NSArray *objects, NSString *errorString) = completion;
+    return [self performJSONRequestAtPath:@"games/incomingrequests" withMethod:@"GET" andParameters:nil sendBodyAsJSON:NO completion:^(NSDictionary *JSONDic, NSString *errorString) {
+        NSMutableArray *objects = nil;
+        if (!errorString) {
+            NSArray *tmpObjects = JSONDic[@"items"];
+            //NSLog(@"%@", tmpObjects);
+            if (tmpObjects) {
+                objects = [NSMutableArray array];
+                for (NSDictionary *dic in tmpObjects) {
+                    [objects addObject:[NSMutableDictionary dictionaryWithDictionary:dic]];
+                }
+            }
+        }
+        
+        completionBlock(objects, errorString);
+    }];
+}
+
++ (NSURLSessionDataTask *)outgoingRequestsWithCompletion:(void(^)(NSArray *objects, NSString *errorString))completion {
+    __block void(^completionBlock)(NSArray *objects, NSString *errorString) = completion;
+    return [self performJSONRequestAtPath:@"games/outgoingrequests" withMethod:@"GET" andParameters:nil sendBodyAsJSON:NO completion:^(NSDictionary *JSONDic, NSString *errorString) {
+        NSMutableArray *objects = nil;
+        if (!errorString) {
+            NSArray *tmpObjects = JSONDic[@"items"];
+            if (tmpObjects) {
+                objects = [NSMutableArray array];
+                for (NSDictionary *dic in tmpObjects) {
+                    [objects addObject:[NSMutableDictionary dictionaryWithDictionary:dic]];
+                }
+            }
+        }
+        
+        completionBlock(objects, errorString);
     }];
 }
 

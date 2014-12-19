@@ -24,24 +24,24 @@
 
 @implementation SMGamesViewController
 
-- (IBAction)changeSegment:(id)sender {
-    if (self.segmentedControl.selectedSegmentIndex == 0) {
-        NSLog(@"My Games");
-        self.fetchController = [[CoreDataController controller] fetchUserGames:self.segmentedControl.selectedSegmentIndex];
-        self.navigationItem.rightBarButtonItem = self.addGameButton;
-    } else if (self.segmentedControl.selectedSegmentIndex == 1) {
-        NSLog(@"Favorites");
-        self.fetchController = [[CoreDataController controller] fetchUserGames:self.segmentedControl.selectedSegmentIndex];
-        self.navigationItem.rightBarButtonItem = nil;
-    }
-    
-    self.fetchController.delegate = self;    
-    [self.tableView reloadData];
-}
+//- (IBAction)changeSegment:(id)sender {
+//    if (self.segmentedControl.selectedSegmentIndex == 0) {
+//        NSLog(@"My Games");
+//        self.fetchController = [[CoreDataController controller] fetchUserGames:self.segmentedControl.selectedSegmentIndex];
+//        self.navigationItem.rightBarButtonItem = self.addGameButton;
+//    } else if (self.segmentedControl.selectedSegmentIndex == 1) {
+//        NSLog(@"Favorites");
+//        self.fetchController = [[CoreDataController controller] fetchUserGames:self.segmentedControl.selectedSegmentIndex];
+//        self.navigationItem.rightBarButtonItem = nil;
+//    }
+//    
+//    self.fetchController.delegate = self;    
+//    [self.tableView reloadData];
+//}
 
-- (void)favoriteAdded:(NSNotification *)notification {
-    NSLog(@"Favorite Added");
-}
+//- (void)favoriteAdded:(NSNotification *)notification {
+//    NSLog(@"Favorite Added");
+//}
 
 #pragma mark - Life Cycle
 
@@ -91,9 +91,9 @@
     return cell;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.fetchController.fetchedObjects count];
-}
+//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+//    return [self.fetchController.fetchedObjects count];
+//}
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     return YES;
