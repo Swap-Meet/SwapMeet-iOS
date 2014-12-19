@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SWAP_CELL" rowHeight="150" id="qDy-MZ-WI2" customClass="SwapTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="430" height="150"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qDy-MZ-WI2" id="ZUQ-fN-cVJ">
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Game Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VTK-Mw-fx0">
+                        <rect key="frame" x="8" y="8" width="414" height="24"/>
+                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="20"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Platform" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W2n-4C-4lq">
+                        <rect key="frame" x="8" y="40" width="65" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Trade FROM/TO:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8yN-LL-wGz">
+                        <rect key="frame" x="8" y="120" width="131" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ax9-Cj-9k3">
+                        <rect key="frame" x="147" y="120" width="86" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="W2n-4C-4lq" firstAttribute="top" secondItem="VTK-Mw-fx0" secondAttribute="bottom" constant="8" id="2rn-TC-lkg"/>
+                    <constraint firstItem="VTK-Mw-fx0" firstAttribute="leading" secondItem="ZUQ-fN-cVJ" secondAttribute="leadingMargin" id="96s-ZM-LOa"/>
+                    <constraint firstItem="8yN-LL-wGz" firstAttribute="bottom" secondItem="ZUQ-fN-cVJ" secondAttribute="bottomMargin" id="CUq-EB-GFx"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="VTK-Mw-fx0" secondAttribute="trailing" id="Y8c-Sq-y68"/>
+                    <constraint firstItem="ax9-Cj-9k3" firstAttribute="bottom" secondItem="ZUQ-fN-cVJ" secondAttribute="bottomMargin" id="f98-aq-ske"/>
+                    <constraint firstItem="W2n-4C-4lq" firstAttribute="leading" secondItem="ZUQ-fN-cVJ" secondAttribute="leadingMargin" id="ibZ-ls-2KP"/>
+                    <constraint firstItem="8yN-LL-wGz" firstAttribute="leading" secondItem="ZUQ-fN-cVJ" secondAttribute="leadingMargin" id="tY9-di-K9i"/>
+                    <constraint firstItem="8yN-LL-wGz" firstAttribute="top" secondItem="W2n-4C-4lq" secondAttribute="bottom" constant="59" id="wng-c3-SXQ"/>
+                    <constraint firstItem="VTK-Mw-fx0" firstAttribute="top" secondItem="ZUQ-fN-cVJ" secondAttribute="topMargin" id="yCL-El-zJ2"/>
+                    <constraint firstItem="ax9-Cj-9k3" firstAttribute="leading" secondItem="8yN-LL-wGz" secondAttribute="trailing" constant="8" id="yrA-vW-TO8"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="platformLabel" destination="W2n-4C-4lq" id="jOP-XJ-mjM"/>
+                <outlet property="titleLabel" destination="VTK-Mw-fx0" id="ECb-9T-d7Q"/>
+                <outlet property="tradeLabel" destination="8yN-LL-wGz" id="aCp-MK-lXf"/>
+                <outlet property="userNameLabel" destination="ax9-Cj-9k3" id="Zeb-40-hlS"/>
+            </connections>
+            <point key="canvasLocation" x="462" y="286"/>
+        </tableViewCell>
+    </objects>
+</document>

@@ -27,7 +27,7 @@ extern NSString * const kSMDefaultsKeyToken;
                                        forPlatform:(NSString *)platform
                                           atOffset:(NSInteger)offset
                                         completion:(void(^)(NSArray *objects, NSInteger itemsLeft, NSString *errorString))completion;
-+ (NSURLSessionDataTask *)gamesContaining:(NSString *)query
++ (NSURLSessionDataTask *)searchForGamesContaining:(NSString *)query
                               forPlatform:(NSString *)platform
                                  atOffset:(NSInteger)offset
                                completion:(void(^)(NSArray *objects, NSInteger itemsLeft, NSString *errorString))completion;

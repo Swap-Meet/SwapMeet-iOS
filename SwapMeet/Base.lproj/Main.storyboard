@@ -332,6 +332,12 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1lJ-cj-CWh">
+                                <rect key="frame" x="312" y="530" width="116" height="30"/>
+                                <state key="normal" title="Trade Game Mial">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -430,10 +436,10 @@
             </objects>
             <point key="canvasLocation" x="1021" y="3163"/>
         </scene>
-        <!--<Swap Meet Logo>-->
+        <!--Browse-->
         <scene sceneID="UH3-VE-eS5">
             <objects>
-                <viewController id="hRt-Hz-bhQ" customClass="SMSearchViewController" sceneMemberID="viewController">
+                <viewController title="Browse" id="hRt-Hz-bhQ" customClass="SMSearchViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="fuF-dq-4QH"/>
                         <viewControllerLayoutGuide type="bottom" id="Lri-JK-G0o"/>
@@ -442,24 +448,22 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="tCd-C4-PaH">
-                                <rect key="frame" x="0.0" y="64" width="600" height="44"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </searchBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="GA1-W7-NHP">
-                                <rect key="frame" x="0.0" y="108" width="600" height="443"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <searchBar key="tableHeaderView" contentMode="redraw" id="tCd-C4-PaH">
+                                    <rect key="frame" x="0.0" y="135" width="600" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <textInputTraits key="textInputTraits"/>
+                                </searchBar>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="Lri-JK-G0o" firstAttribute="top" secondItem="GA1-W7-NHP" secondAttribute="bottom" id="2YV-OQ-0Qe"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="GA1-W7-NHP" secondAttribute="trailing" constant="-16" id="3v6-iA-U2L"/>
-                            <constraint firstItem="tCd-C4-PaH" firstAttribute="leading" secondItem="QRm-6m-Kdf" secondAttribute="leadingMargin" constant="-16" id="5cU-rP-2lL"/>
-                            <constraint firstItem="GA1-W7-NHP" firstAttribute="top" secondItem="tCd-C4-PaH" secondAttribute="bottom" id="7B2-8u-HUZ"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="tCd-C4-PaH" secondAttribute="trailing" constant="-16" id="Ngx-Rw-1iJ"/>
-                            <constraint firstItem="GA1-W7-NHP" firstAttribute="leading" secondItem="QRm-6m-Kdf" secondAttribute="leadingMargin" constant="-16" id="inu-SF-UTX"/>
-                            <constraint firstItem="tCd-C4-PaH" firstAttribute="top" secondItem="fuF-dq-4QH" secondAttribute="bottom" id="v74-RU-ZML"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="GA1-W7-NHP" secondAttribute="trailing" constant="-16" id="6e8-a4-0Ai"/>
+                            <constraint firstItem="GA1-W7-NHP" firstAttribute="top" secondItem="QRm-6m-Kdf" secondAttribute="topMargin" id="Qm2-Qd-oSA"/>
+                            <constraint firstItem="GA1-W7-NHP" firstAttribute="leading" secondItem="QRm-6m-Kdf" secondAttribute="leadingMargin" constant="-16" id="Xz8-50-xmn"/>
+                            <constraint firstItem="Lri-JK-G0o" firstAttribute="top" secondItem="GA1-W7-NHP" secondAttribute="bottom" id="mWc-sj-7U9"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="&lt;Swap Meet Logo&gt;" id="J5P-rF-QnS">
@@ -481,7 +485,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="37A-Vv-tmC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1805" y="1013"/>
+            <point key="canvasLocation" x="1805" y="999"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="8Dn-dw-6ar">

@@ -8,6 +8,7 @@
 
 #import "SMSwapBoxViewController.h"
 #import "SMNetworking.h"
+#import "SwapTableViewCell.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 
 @interface SMSwapBoxViewController () {
@@ -28,7 +29,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self.tableView registerNib:[UINib nibWithNibName:@"SearchTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"GAME_CELL"];
+    [self.tableView registerNib:[UINib nibWithNibName:@"SwapTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"SWAP_CELL"];
+    self.tableView.rowHeight = UITableViewAutomaticDimension;
+    self.tableView.estimatedRowHeight = 100;
     
     [self fetchIncomingRequests];
     
@@ -44,7 +47,21 @@
 #pragma mark - TABLE VIEW DATA SOURCE
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"GAME_CELL"];
+    SwapTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"SWAP_CELL"];
+    
+    NSDictionary *tradeDict;
+    if (self.segmentedControl.selectedSegmentIndex == 0) {
+        tradeDict = _swapIns[indexPath.row];
+        cell.tradeLabel.text = @"Trade FROM:";
+    } else if (self.segmentedControl.selectedSegmentIndex ==1) {
+        tradeDict = _swapOuts[indexPath.row];
+        cell.tradeLabel.text = @"Trade TO:";
+    }
+    
+    NSDictionary *gameInfo = [tradeDict objectForKey:@"gameInfo"];
+    
+    cell.titleLabel.text = gameInfo[@"title"];
+    cell.platformLabel.text = gameInfo[@"platform"];
     
     return cell;
 }
@@ -53,9 +70,9 @@
     NSInteger rowCount;
     
     if (self.segmentedControl.selectedSegmentIndex == 0) {
-        rowCount = self.swapIns.count;
+        rowCount = [self.swapIns count];
     } else if (self.segmentedControl.selectedSegmentIndex == 1) {
-        rowCount = self.swapOuts.count;
+        rowCount = [self.swapOuts count];
     }
     
     return rowCount;
@@ -67,6 +84,7 @@
     } if (self.segmentedControl.selectedSegmentIndex == 1) {
         NSLog(@"Swap Outs");
         [_requestTask cancel];
+        _swapOuts = [NSMutableArray array];
         hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         _requestTask = [SMNetworking outgoingRequestsWithCompletion:^(NSArray *objects, NSString *errorString) {
             [hud hide:YES];
@@ -85,6 +103,7 @@
 - (void)fetchIncomingRequests {
     NSLog(@"Swap Ins");
     [_requestTask cancel];
+    _swapIns = [NSMutableArray array];
     hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     _requestTask = [SMNetworking incomingRequestsWithCompletion:^(NSArray *objects, NSString *errorString) {
         [hud hide:YES];
@@ -95,6 +114,7 @@
         
         [_swapIns addObjectsFromArray:objects];
         NSLog(@"%@", objects);
+        NSLog(@"%lu", (unsigned long)self.swapIns.count);
         [_tableView reloadData];
     }];
 }

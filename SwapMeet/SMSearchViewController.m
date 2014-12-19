@@ -38,28 +38,30 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.searchFilterViewController = [[SMSearchFilterViewController alloc] init];
+    //self.searchFilterViewController = [[SMSearchFilterViewController alloc] init];
     
     self.token = [[NSUserDefaults standardUserDefaults] objectForKey:kSMDefaultsKeyToken];
     self.gamesArray = [NSMutableArray array];
-
-    [self.tableView registerNib:[UINib nibWithNibName:@"SearchTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"GAME_CELL"];
-    self.tableView.rowHeight = UITableViewAutomaticDimension;
-    self.tableView.estimatedRowHeight = 100;
+    
+    [self setupNavigationBar];
+    [self setupTableView];
+    [self setupNotifications];
     
     _canLoadMore = YES;
     [self searchForGames];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addedFavorite:) name:@"FAVORITE_ADDED" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deletedFavorite:) name:@"FAVORITE_DELETED" object:nil];
     
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.searchBar.delegate =self;
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:YES];
+    [self.tableView setContentOffset:CGPointMake(0, 44)];
+}
+
 - (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
+    [super viewDidAppear:YES];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -207,7 +209,6 @@
     //NSLog(@"%@", searchText);
     
     if (!self.token) {
-        NSLog(@"Public Browsing...");
         _searchTask = [SMNetworking publicBrowsingContaining:searchText forPlatform:platform atOffset:offset completion:^(NSArray *objects, NSInteger itemsLeft, NSString *errorString) {
             _canLoadMore = itemsLeft > 0;
             NSLog(@"Count: %ld. Items left: %ld", (long)[objects count], (long)itemsLeft);
@@ -222,8 +223,7 @@
             [_tableView reloadData];
         }];
     } else {
-        NSLog(@"Authenticated Search...");
-        _searchTask = [SMNetworking gamesContaining:searchText forPlatform:platform atOffset:offset completion:^(NSArray *objects, NSInteger itemsLeft, NSString *errorString) {
+        _searchTask = [SMNetworking searchForGamesContaining:searchText forPlatform:platform atOffset:offset completion:^(NSArray *objects, NSInteger itemsLeft, NSString *errorString) {
             _canLoadMore = itemsLeft > 0;
             NSLog(@"Count: %ld. Items left: %ld", (long)[objects count], (long)itemsLeft);
             [hud hide:YES];
@@ -329,6 +329,31 @@
     SMSearchFilterViewController *searchFilterViewController = [[SMSearchFilterViewController alloc] initWithNibName:@"SMSearchFilterViewController" bundle:[NSBundle mainBundle]];
     searchFilterViewController.delegate = self;
     [self presentViewController:searchFilterViewController animated:YES completion:nil];
+}
+
+#pragma mark - SETUP
+
+- (void)setupNavigationBar {
+    //self.navigationController.navigationBar.backgroundColor = [UIColor blackColor];
+    //self.navigationController.navigationBar.tintColor = [UIColor blackColor];
+    self.navigationController.navigationBar.barTintColor = [UIColor blackColor];
+    self.navigationController.navigationBar.translucent = NO;
+    UIImage *image = [UIImage imageNamed:@"logo"];
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
+    imageView.contentMode = UIViewContentModeScaleAspectFit;
+    self.navigationItem.titleView = imageView;
+}
+
+- (void)setupTableView {
+    [self.tableView registerNib:[UINib nibWithNibName:@"SearchTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"GAME_CELL"];
+    self.tableView.rowHeight = UITableViewAutomaticDimension;
+    self.tableView.estimatedRowHeight = 100;
+    [self.tableView setContentOffset:CGPointMake(0, 44)];
+}
+
+- (void)setupNotifications {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addedFavorite:) name:@"FAVORITE_ADDED" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deletedFavorite:) name:@"FAVORITE_DELETED" object:nil];
 }
 
 @end

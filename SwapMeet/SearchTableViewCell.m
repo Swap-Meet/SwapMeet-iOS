@@ -107,7 +107,7 @@
     NSLog(@"star tap");
 
     [self startStarUpdate];
-    NSMutableDictionary *gameRow;
+    //NSMutableDictionary *gameRow;
     //int indexInt = self.indexRow;
     //[[NSNotificationCenter defaultCenter] postNotificationName:@"FAVORITE_ADDED" object:self userInfo:@{@"index_row":}];
     //[[NSNotificationCenter defaultCenter] postNotificationName:@"FAVORITE_ADDED" object:self userInfo:nil];
