@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -22,18 +22,18 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Game Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0ad-5k-3Xy">
-                        <rect key="frame" x="90" y="8" width="292" height="29"/>
-                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="24"/>
+                        <rect key="frame" x="90" y="8" width="292" height="24"/>
+                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="20"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6Vk-8Z-YBa">
-                        <rect key="frame" x="90" y="43" width="71" height="25"/>
+                        <rect key="frame" x="90" y="38" width="64" height="22"/>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Platform" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p31-Vr-0Tw">
-                        <rect key="frame" x="93" y="45" width="65" height="21"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <rect key="frame" x="93" y="40" width="58" height="18"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -43,33 +43,33 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0oP-pm-LY6">
                         <rect key="frame" x="382" y="0.0" width="46" height="149"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star" highlightedImage="star" translatesAutoresizingMaskIntoConstraints="NO" id="pAE-S9-gjx">
-                                <rect key="frame" x="12" y="64" width="22" height="22"/>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="m2Z-xH-iXd">
+                                <rect key="frame" x="13" y="10" width="20" height="20"/>
+                            </activityIndicatorView>
+                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star" highlightedImage="star" translatesAutoresizingMaskIntoConstraints="NO" id="pAE-S9-gjx">
+                                <rect key="frame" x="12" y="10" width="22" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="22" id="0xd-N3-bSm"/>
                                     <constraint firstAttribute="height" constant="22" id="xml-lF-Me9"/>
                                 </constraints>
                             </imageView>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="m2Z-xH-iXd">
-                                <rect key="frame" x="13" y="65" width="20" height="20"/>
-                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="centerX" secondItem="m2Z-xH-iXd" secondAttribute="centerX" id="3ij-ZB-aaS"/>
-                            <constraint firstAttribute="centerX" secondItem="pAE-S9-gjx" secondAttribute="centerX" id="DTX-5m-pvg"/>
-                            <constraint firstAttribute="centerY" secondItem="m2Z-xH-iXd" secondAttribute="centerY" id="LKY-Dq-NsM"/>
+                            <constraint firstItem="m2Z-xH-iXd" firstAttribute="top" secondItem="0oP-pm-LY6" secondAttribute="top" constant="10" id="Bae-FP-pIR"/>
+                            <constraint firstAttribute="centerX" secondItem="m2Z-xH-iXd" secondAttribute="centerX" id="Fqp-Ef-pYP"/>
+                            <constraint firstAttribute="centerX" secondItem="pAE-S9-gjx" secondAttribute="centerX" id="Mdv-hJ-hDx"/>
                             <constraint firstAttribute="width" constant="46" id="Q4K-xd-3ut"/>
-                            <constraint firstAttribute="centerY" secondItem="pAE-S9-gjx" secondAttribute="centerY" id="nLb-VE-7JK"/>
+                            <constraint firstItem="pAE-S9-gjx" firstAttribute="top" secondItem="0oP-pm-LY6" secondAttribute="top" constant="10" id="e91-Bz-jPH"/>
                         </constraints>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WvZ-qF-UtE">
-                        <rect key="frame" x="90" y="74" width="48" height="25"/>
+                        <rect key="frame" x="90" y="66" width="44" height="22"/>
                         <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="0.25098040700000002" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9AM-8p-ABR">
-                        <rect key="frame" x="93" y="76" width="42" height="21"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <rect key="frame" x="93" y="68" width="38" height="18"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>

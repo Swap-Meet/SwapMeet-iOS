@@ -65,11 +65,12 @@
             UITabBarController *tabBarController = (UITabBarController *)appDelegate.window.rootViewController;
             
             NSInteger destinationTab = appDelegate.targetTab;
-            if (destinationTab == 2) {
+            //if (destinationTab == 1) {
                 [tabBarController setSelectedIndex:destinationTab];
-            } else if (destinationTab == 3) {
-                [tabBarController setSelectedIndex:destinationTab];
-            }
+            //}
+//            else if (destinationTab == 3) {
+//                [tabBarController setSelectedIndex:destinationTab];
+//            }
             
             [hud hide:YES];
             [self dismissViewControllerAnimated:true completion:nil];

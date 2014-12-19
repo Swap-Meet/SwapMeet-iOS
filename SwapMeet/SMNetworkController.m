@@ -10,7 +10,7 @@
 
 const NSTimeInterval kSMNetworkingDefaultTimeout = 10;
 
-#pragma mark - Helpers
+#pragma mark - HELPER METHODS
 
 @interface NSDictionary (SMNetworkController)
 - (NSString *)encodedStringForHTTPBody;
@@ -49,7 +49,7 @@ const NSTimeInterval kSMNetworkingDefaultTimeout = 10;
 }
 @end
 
-#pragma mark - SMNetworkController
+#pragma mark - NETWORK CONTROLLER
 
 @interface SMNetworkController ()
 @property NSMutableDictionary *HTTPHeaderParameters;
@@ -57,7 +57,16 @@ const NSTimeInterval kSMNetworkingDefaultTimeout = 10;
 
 @implementation SMNetworkController
 
-#pragma mark - Public Methods
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.session = [NSURLSession sharedSession];
+    }
+    return self;
+}
+
+#pragma mark - PUBLIC METHODS
 
 - (void)setValue:(NSString *)value forHTTPHeaderField:(NSString *)field {
     if (!self.HTTPHeaderParameters) {
@@ -71,7 +80,7 @@ const NSTimeInterval kSMNetworkingDefaultTimeout = 10;
     [self.HTTPHeaderParameters removeObjectForKey:field];
 }
 
-#pragma mark - Public Class Methods
+#pragma mark - PUBLIC CLASS METHODS
 
 + (instancetype)controller {
     static id instance = nil;
@@ -82,7 +91,7 @@ const NSTimeInterval kSMNetworkingDefaultTimeout = 10;
     return instance;
 }
 
-#pragma mark - Private Class Methods
+#pragma mark - PRIVATE CLASS METHODS
 
 + (NSString *)processBadJSONResponse:(NSData *)data {
     if (!data)
@@ -236,17 +245,6 @@ const NSTimeInterval kSMNetworkingDefaultTimeout = 10;
     
     [retVal resume];
     return retVal;
-}
-
-#pragma mark - Life Cycle
-
-- (instancetype)init
-{
-    self = [super init];
-    if (self) {
-        self.session = [NSURLSession sharedSession];
-    }
-    return self;
 }
 
 @end

@@ -313,4 +313,11 @@ NSString * const kSMDefaultsKeyAvatarURL = @"avatar";
     NSLog(@"Favorite Added");
 }
 
+- (IBAction)addButtonPressed:(id)sender {
+    SMAddGameViewController *addGameVC = [[SMAddGameViewController alloc] initWithNibName:@"SMAddGameViewController" bundle:[NSBundle mainBundle]];
+    [self presentViewController:addGameVC animated:true completion:nil];
+}
+
+
+
 @end

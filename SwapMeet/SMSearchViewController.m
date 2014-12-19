@@ -7,78 +7,59 @@
 //
 
 #import "SMSearchViewController.h"
+#import "SMGameDetailsViewController.h"
+#import "SMSearchFilterViewController.h"
+#import "SMSwapBoxViewController.h"
+#import "SMLoginViewController.h"
 #import "SMNetworking.h"
 #import "SearchTableViewCell.h"
-#import <MBProgressHUD/MBProgressHUD.h>
 #import "Game.h"
 #import "CoreDataController.h"
 #import "GDCacheController.h"
+#import <MBProgressHUD/MBProgressHUD.h>
 
 @interface SMSearchViewController () {
     MBProgressHUD *hud;
 }
 
-@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
-
-@property (strong, nonatomic) NSMutableArray *gamesArray;
+@property (strong, nonatomic) NSString *token;
 @property (nonatomic) NSURLSessionDataTask *searchTask;
 @property BOOL canLoadMore;
+@property (strong, nonatomic) NSString *consoleFilter;
+@property (strong, nonatomic) SMSearchFilterViewController *searchFilterViewController;
+
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end
 
 @implementation SMSearchViewController
 
-#pragma mark - Private Methods
-
-- (void)searchAtOffset:(NSInteger)offset {
-    _canLoadMore = NO;
-    _searchTask = [SMNetworking gamesContaining:_searchBar.text forPlatform:nil atOffset:offset completion:^(NSArray *objects, NSInteger itemsLeft, NSString *errorString) {
-        _canLoadMore = itemsLeft > 0;
-        NSLog(@"Count: %ld. Items left: %ld", (long)[objects count], (long)itemsLeft);
-        [hud hide:YES];
-        if (errorString) {
-            NSLog(@"%@", errorString);
-            return;
-        }
-        
-        [_gamesArray addObjectsFromArray:objects];
-        [_tableView reloadData];
-    }];
-}
-
-- (void)deletedFavorite:(NSNotification *)notification {
-    NSString *favoriteID = notification.userInfo[@"id"];
-    if (favoriteID) {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"_id = %@", favoriteID];
-        NSArray *filteredArray = [_gamesArray filteredArrayUsingPredicate:predicate];
-        if ([filteredArray count] > 0) {
-            NSMutableDictionary *gameDic = [filteredArray firstObject];
-            gameDic[@"already_wanted"] = @(NO);
-            [_tableView reloadData];
-        }
-    }
-}
-
-#pragma mark - Life Cycle
-
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    self.searchBar.delegate =self;
+    
+    self.searchFilterViewController = [[SMSearchFilterViewController alloc] init];
+    
+    self.token = [[NSUserDefaults standardUserDefaults] objectForKey:kSMDefaultsKeyToken];
+    self.gamesArray = [NSMutableArray array];
+
     [self.tableView registerNib:[UINib nibWithNibName:@"SearchTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"GAME_CELL"];
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     self.tableView.estimatedRowHeight = 100;
-    self.gamesArray = [NSMutableArray array];
-    _canLoadMore = YES;
     
+    _canLoadMore = YES;
+    [self searchAtOffset:0 forPlatform:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addedFavorite:) name:@"FAVORITE_ADDED" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deletedFavorite:) name:@"FAVORITE_DELETED" object:nil];
+    
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    self.searchBar.delegate =self;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    //[[NSNotificationCenter defaultCenter] postNotificationName:@"ADDED_FAVORITE" object:self userInfo:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -87,15 +68,18 @@
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-#pragma mark - UITableView Delegates Methods
+#pragma mark - TABLE VIEW DATA SOURCE
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     SearchTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"GAME_CELL"];
     cell.mode = SearchTableViewCellModeSearch;
     [cell.activityIndicator stopAnimating];
     NSDictionary *gameDic = _gamesArray[indexPath.row];
+    //cell.selectedGame = gameDic;
+    cell.indexRow = indexPath.row;
     cell.titleLabel.text = gameDic[@"title"];
     cell.platformName.text = gameDic[@"platform"];
     cell.starred = [gameDic[@"already_wanted"] boolValue];
@@ -135,14 +119,165 @@
     return [_gamesArray count];
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 110;
+}
+
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (!_canLoadMore) {
         return;
     }
     
     if (indexPath.row == [_gamesArray count] - 2) {
-        [self searchAtOffset:[_gamesArray count]];
+        [self searchAtOffset:_gamesArray.count forPlatform:self.consoleFilter];
     }
+}
+
+#pragma mark - TABLE VIEW DELEGATE
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    if (!self.token) {
+        NSLog(@"Alert view when not logged in");
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Login required" message:@"Please log in to view games." preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *cancelButton = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
+        UIAlertAction *loginButton = [UIAlertAction actionWithTitle:@"Login" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            // Instantiate the view after login?
+            self.targetTab = 0;
+            SMLoginViewController *loginViewController = [[SMLoginViewController alloc] initWithNibName:@"SMLoginViewController" bundle:[NSBundle mainBundle]];
+            UINavigationController *modalNavController = [[UINavigationController alloc] initWithRootViewController:loginViewController];
+            [self presentViewController:modalNavController animated:YES completion:nil];
+        }];
+        
+        [alert addAction:cancelButton];
+        [alert addAction:loginButton];
+        [self presentViewController:alert animated:YES completion:nil];
+    } else {
+        SMGameDetailsViewController *gameDetails = [self.storyboard instantiateViewControllerWithIdentifier:@"GAME_DETAILS_VC"];
+        //    SearchTableViewCell *searchCell = (SearchTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+        NSDictionary *gameDict = _gamesArray[indexPath.row];
+        //searchCell.selectedGame = gameDict;
+        gameDetails.selectedGame = gameDict;
+        NSLog(@"%@", gameDict);
+        
+        //    [searchCell startStarUpdate];
+        
+        [self.navigationController pushViewController:gameDetails animated:YES];
+    }
+}
+
+#pragma mark - SEARCH BAR DELEGATE
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    [searchBar resignFirstResponder];
+    [_searchTask cancel];
+    _gamesArray = [NSMutableArray array];
+    hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [self searchAtOffset:0 forPlatform:self.consoleFilter];
+}
+
+#pragma mark - SEARCH DELEGATE
+
+- (void)searchFilterConfirmed:(NSString *)consoleFilter {
+    self.consoleFilter = consoleFilter;
+    //NSLog(@"Delegate: %@, Variable: %@", consoleFilter, self.consoleFilter);
+    [_searchTask cancel];
+    _gamesArray = [NSMutableArray array];
+    hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [self searchAtOffset:0 forPlatform:self.consoleFilter];
+}
+
+#pragma mark - PRIVATE METHODS
+
+- (void)searchAtOffset:(NSInteger)offset forPlatform:(NSString *)platform {
+    NSString *searchText;
+    _canLoadMore = NO;
+    
+    if ([_searchBar.text isEqualToString:@""]) {
+        searchText = nil;
+    } else {
+        searchText = _searchBar.text;
+    }
+    if ([platform isEqualToString:@""]) {
+        platform = nil;
+    }
+
+    //NSLog(@"%@", searchText);
+    
+    if (!self.token) {
+        NSLog(@"Public Browsing...");
+        _searchTask = [SMNetworking publicBrowsingContaining:searchText forPlatform:platform atOffset:offset completion:^(NSArray *objects, NSInteger itemsLeft, NSString *errorString) {
+            _canLoadMore = itemsLeft > 0;
+            NSLog(@"Count: %ld. Items left: %ld", (long)[objects count], (long)itemsLeft);
+            [hud hide:YES];
+            if (errorString) {
+                NSLog(@"%@", errorString);
+                return;
+            }
+            
+            [_gamesArray addObjectsFromArray:objects];
+            NSLog(@"%@", objects);
+            [_tableView reloadData];
+        }];
+    } else {
+        NSLog(@"Authenticated Search...");
+        _searchTask = [SMNetworking gamesContaining:searchText forPlatform:platform atOffset:offset completion:^(NSArray *objects, NSInteger itemsLeft, NSString *errorString) {
+            _canLoadMore = itemsLeft > 0;
+            NSLog(@"Count: %ld. Items left: %ld", (long)[objects count], (long)itemsLeft);
+            [hud hide:YES];
+            if (errorString) {
+                NSLog(@"%@", errorString);
+                return;
+            }
+            
+            [_gamesArray addObjectsFromArray:objects];
+            NSLog(@"%@", objects);
+            [_tableView reloadData];
+        }];
+    }
+}
+
+- (void)addedFavorite:(NSNotification *)notification {
+    NSLog(@"Favorite notification fired");
+    
+    //    NSDictionary *gameDic = _gamesArray[indexPath.row];
+    //    SearchTableViewCell *cell = (SearchTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+    //    [cell startStarUpdate];
+    //    __block NSIndexPath *indexPathBlock = indexPath;
+    //    BOOL add = ![gameDic[@"already_wanted"] boolValue];
+    //    if (add) {
+    //        [SMNetworking addGameToFavoritesWithID:gameDic[@"_id"] completion:^(BOOL success, NSString *errorString) {
+    //            SearchTableViewCell *cell = (SearchTableViewCell *)[tableView cellForRowAtIndexPath:indexPathBlock];
+    //            if (errorString) {
+    //                [[[UIAlertView alloc] initWithTitle:@"Error" message:errorString delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil] show];
+    //            }
+    //
+    //            NSMutableDictionary *gameDic = _gamesArray[indexPathBlock.row];
+    //            gameDic[@"already_wanted"] = @(errorString == nil);
+    //
+    //            [cell finishStarUpdate:errorString == nil];
+    //
+    //            if (!errorString) {
+    //                [self processFavourite:gameDic add:YES image:cell.thumbnailImageView.image];
+    //            }
+    //        }];
+    //    } else {
+    //        [SMNetworking removeGameFromFavoritesWithID:gameDic[@"_id"] completion:^(BOOL success, NSString *errorString) {
+    //            SearchTableViewCell *cell = (SearchTableViewCell *)[tableView cellForRowAtIndexPath:indexPathBlock];
+    //            if (errorString) {
+    //                [[[UIAlertView alloc] initWithTitle:@"Error" message:errorString delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil] show];
+    //            }
+    //
+    //            NSMutableDictionary *gameDic = _gamesArray[indexPathBlock.row];
+    //            gameDic[@"already_wanted"] = @(errorString != nil);
+    //
+    //            [cell finishStarUpdate:errorString != nil];
+    //            if (!errorString) {
+    //                [self processFavourite:gameDic add:NO image:nil];
+    //            }
+    //        }];
+    //    }
 }
 
 - (void)processFavourite:(NSDictionary *)gameDic add:(BOOL)add image:(UIImage *)image {
@@ -169,59 +304,30 @@
     }
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 110;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    NSDictionary *gameDic = _gamesArray[indexPath.row];
-    SearchTableViewCell *cell = (SearchTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
-    [cell startStarUpdate];
-    __block NSIndexPath *indexPathBlock = indexPath;
-    BOOL add = ![gameDic[@"already_wanted"] boolValue];
-    if (add) {
-        [SMNetworking addGameToFavoritesWithID:gameDic[@"_id"] completion:^(BOOL success, NSString *errorString) {
-            SearchTableViewCell *cell = (SearchTableViewCell *)[tableView cellForRowAtIndexPath:indexPathBlock];
-            if (errorString) {
-                [[[UIAlertView alloc] initWithTitle:@"Error" message:errorString delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil] show];
-            }
-            
-            NSMutableDictionary *gameDic = _gamesArray[indexPathBlock.row];
-            gameDic[@"already_wanted"] = @(errorString == nil);
-            
-            [cell finishStarUpdate:errorString == nil];
-            
-            if (!errorString) {
-                [self processFavourite:gameDic add:YES image:cell.thumbnailImageView.image];
-            }
-        }];
-    } else {
-        [SMNetworking removeGameFromFavoritesWithID:gameDic[@"_id"] completion:^(BOOL success, NSString *errorString) {
-            SearchTableViewCell *cell = (SearchTableViewCell *)[tableView cellForRowAtIndexPath:indexPathBlock];
-            if (errorString) {
-                [[[UIAlertView alloc] initWithTitle:@"Error" message:errorString delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil] show];
-            }
-            
-            NSMutableDictionary *gameDic = _gamesArray[indexPathBlock.row];
-            gameDic[@"already_wanted"] = @(errorString != nil);
-            
-            [cell finishStarUpdate:errorString != nil];
-            if (!errorString) {
-                [self processFavourite:gameDic add:NO image:nil];
-            }
-        }];
+- (void)deletedFavorite:(NSNotification *)notification {
+    NSString *favoriteID = notification.userInfo[@"id"];
+    if (favoriteID) {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"_id = %@", favoriteID];
+        NSArray *filteredArray = [_gamesArray filteredArrayUsingPredicate:predicate];
+        if ([filteredArray count] > 0) {
+            NSMutableDictionary *gameDic = [filteredArray firstObject];
+            gameDic[@"already_wanted"] = @(NO);
+            [_tableView reloadData];
+        }
     }
 }
 
-#pragma mark - UISearchBarDelegate Methods
+#pragma mark - NAVIGATION
 
-- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
-    [searchBar resignFirstResponder];
-    [_searchTask cancel];
-    _gamesArray = [NSMutableArray array];
-    hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [self searchAtOffset:0];
+- (IBAction)swapBoxButtonPressed:(id)sender {
+    SMSwapBoxViewController *swapBoxViewController = [[SMSwapBoxViewController alloc] initWithNibName:@"SMSwapBoxViewController" bundle:[NSBundle mainBundle]];
+    [self presentViewController:swapBoxViewController animated:YES completion:nil];
+}
+
+- (IBAction)filterButtonPressed:(id)sender {
+    SMSearchFilterViewController *searchFilterViewController = [[SMSearchFilterViewController alloc] initWithNibName:@"SMSearchFilterViewController" bundle:[NSBundle mainBundle]];
+    searchFilterViewController.delegate = self;
+    [self presentViewController:searchFilterViewController animated:YES completion:nil];
 }
 
 @end

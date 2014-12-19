@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SMSearchDelegate.h"
 
-@interface SMSearchViewController : UIViewController <UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface SMSearchViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, SMSearchDelegate>
+
+@property (strong, nonatomic) NSMutableArray *gamesArray;
+@property (nonatomic) NSInteger targetTab;
 
 @end
