@@ -48,7 +48,7 @@
     self.tableView.estimatedRowHeight = 100;
     
     _canLoadMore = YES;
-    [self searchAtOffset:0 forPlatform:nil];
+    [self searchForGames];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addedFavorite:) name:@"FAVORITE_ADDED" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deletedFavorite:) name:@"FAVORITE_DELETED" object:nil];
@@ -171,10 +171,7 @@
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     [searchBar resignFirstResponder];
-    [_searchTask cancel];
-    _gamesArray = [NSMutableArray array];
-    hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [self searchAtOffset:0 forPlatform:self.consoleFilter];
+    [self searchForGames];
 }
 
 #pragma mark - SEARCH DELEGATE
@@ -182,6 +179,10 @@
 - (void)searchFilterConfirmed:(NSString *)consoleFilter {
     self.consoleFilter = consoleFilter;
     //NSLog(@"Delegate: %@, Variable: %@", consoleFilter, self.consoleFilter);
+    [self searchForGames];
+}
+
+- (void)searchForGames {
     [_searchTask cancel];
     _gamesArray = [NSMutableArray array];
     hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];

@@ -302,6 +302,43 @@ NSString * const kSMDefaultsKeyToken = @"token";
     }];
 }
 
++ (NSURLSessionDataTask *)incomingRequestsWithCompletion:(void(^)(NSArray *objects, NSString *errorString))completion {
+    __block void(^completionBlock)(NSArray *objects, NSString *errorString) = completion;
+    return [self performJSONRequestAtPath:@"games/incomingrequests" withMethod:@"GET" andParameters:nil sendBodyAsJSON:NO completion:^(NSDictionary *JSONDic, NSString *errorString) {
+        NSMutableArray *objects = nil;
+        if (!errorString) {
+            NSArray *tmpObjects = JSONDic[@"items"];
+            //NSLog(@"%@", tmpObjects);
+            if (tmpObjects) {
+                objects = [NSMutableArray array];
+                for (NSDictionary *dic in tmpObjects) {
+                    [objects addObject:[NSMutableDictionary dictionaryWithDictionary:dic]];
+                }
+            }
+        }
+        
+        completionBlock(objects, errorString);
+    }];
+}
+
++ (NSURLSessionDataTask *)outgoingRequestsWithCompletion:(void(^)(NSArray *objects, NSString *errorString))completion {
+    __block void(^completionBlock)(NSArray *objects, NSString *errorString) = completion;
+    return [self performJSONRequestAtPath:@"games/outgoingrequests" withMethod:@"GET" andParameters:nil sendBodyAsJSON:NO completion:^(NSDictionary *JSONDic, NSString *errorString) {
+        NSMutableArray *objects = nil;
+        if (!errorString) {
+            NSArray *tmpObjects = JSONDic[@"items"];
+            if (tmpObjects) {
+                objects = [NSMutableArray array];
+                for (NSDictionary *dic in tmpObjects) {
+                    [objects addObject:[NSMutableDictionary dictionaryWithDictionary:dic]];
+                }
+            }
+        }
+        
+        completionBlock(objects, errorString);
+    }];
+}
+
 #pragma mark - PRIVATE METHODS
 
 + (NSString *)tokenByProcessingResponse:(NSString **)errorString_p data:(NSData *)data profileDic:(NSDictionary **)profileDic_p

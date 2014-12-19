@@ -7,8 +7,16 @@
 //
 
 #import "SMSwapBoxViewController.h"
+#import "SMNetworking.h"
+#import <MBProgressHUD/MBProgressHUD.h>
 
-@interface SMSwapBoxViewController ()
+@interface SMSwapBoxViewController () {
+    MBProgressHUD *hud;
+}
+
+@property (strong, nonatomic) NSMutableArray *swapIns;
+@property (strong, nonatomic) NSMutableArray *swapOuts;
+@property (nonatomic) NSURLSessionDataTask *requestTask;
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
@@ -21,6 +29,8 @@
     [super viewDidLoad];
     
     [self.tableView registerNib:[UINib nibWithNibName:@"SearchTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"GAME_CELL"];
+    
+    [self fetchIncomingRequests];
     
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
@@ -40,17 +50,54 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 1;
+    NSInteger rowCount;
+    
+    if (self.segmentedControl.selectedSegmentIndex == 0) {
+        rowCount = self.swapIns.count;
+    } else if (self.segmentedControl.selectedSegmentIndex == 1) {
+        rowCount = self.swapOuts.count;
+    }
+    
+    return rowCount;
 }
 
 - (IBAction)segmentChanged:(id)sender {
     if (self.segmentedControl.selectedSegmentIndex == 0) {
-        NSLog(@"Swap Ins");
+        [self fetchIncomingRequests];
     } if (self.segmentedControl.selectedSegmentIndex == 1) {
         NSLog(@"Swap Outs");
+        [_requestTask cancel];
+        hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        _requestTask = [SMNetworking outgoingRequestsWithCompletion:^(NSArray *objects, NSString *errorString) {
+            [hud hide:YES];
+            if (errorString) {
+                NSLog(@"%@", errorString);
+                return;
+            }
+            
+            [_swapOuts addObjectsFromArray:objects];
+            NSLog(@"%@", objects);
+            [_tableView reloadData];
+        }];
     }
 }
 
+- (void)fetchIncomingRequests {
+    NSLog(@"Swap Ins");
+    [_requestTask cancel];
+    hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    _requestTask = [SMNetworking incomingRequestsWithCompletion:^(NSArray *objects, NSString *errorString) {
+        [hud hide:YES];
+        if (errorString) {
+            NSLog(@"%@", errorString);
+            return;
+        }
+        
+        [_swapIns addObjectsFromArray:objects];
+        NSLog(@"%@", objects);
+        [_tableView reloadData];
+    }];
+}
 
 #pragma mark - TABLE VIEW DELEGATE
 

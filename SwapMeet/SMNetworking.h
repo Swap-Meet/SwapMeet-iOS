@@ -40,6 +40,8 @@ extern NSString * const kSMDefaultsKeyToken;
 + (NSURLSessionDataTask *)deleteUserGameWithID:(NSString *)gameID
                                     completion:(void(^)(BOOL success, NSString *errorString))completion;
 + (NSURLSessionDataTask *)profileWithCompletion:(void(^)(NSDictionary *userDictionary, NSString *errorString))completion;
++ (NSURLSessionDataTask *)incomingRequestsWithCompletion:(void(^)(NSArray *objects, NSString *errorString))completion;
++ (NSURLSessionDataTask *)outgoingRequestsWithCompletion:(void(^)(NSArray *objects, NSString *errorString))completion;
 + (void)invalidateToken;
 
 @end
