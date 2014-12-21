@@ -16,6 +16,7 @@
 #import "Game.h"
 #import "CoreDataController.h"
 #import "GDCacheController.h"
+#import "UIColor+Hex.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 
 @interface SMSearchViewController () {
@@ -336,7 +337,7 @@
 - (void)setupNavigationBar {
     //self.navigationController.navigationBar.backgroundColor = [UIColor blackColor];
     //self.navigationController.navigationBar.tintColor = [UIColor blackColor];
-    self.navigationController.navigationBar.barTintColor = [UIColor blackColor];
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:@"1B465A"];//009999, 1B465A, F53131, D7D7D7;
     self.navigationController.navigationBar.translucent = NO;
     UIImage *image = [UIImage imageNamed:@"logo"];
     UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
