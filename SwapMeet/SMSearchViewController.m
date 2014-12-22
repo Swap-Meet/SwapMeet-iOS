@@ -28,6 +28,7 @@
 @property BOOL canLoadMore;
 @property (strong, nonatomic) NSString *consoleFilter;
 @property (strong, nonatomic) SMSearchFilterViewController *searchFilterViewController;
+@property (strong, nonatomic) UIRefreshControl *refreshControl;
 
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -192,6 +193,11 @@
     [self searchAtOffset:0 forPlatform:self.consoleFilter];
 }
 
+- (void)refreshSearch {
+    [self searchForGames];
+    [self.refreshControl endRefreshing];
+}
+
 #pragma mark - PRIVATE METHODS
 
 - (void)searchAtOffset:(NSInteger)offset forPlatform:(NSString *)platform {
@@ -350,6 +356,12 @@
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     self.tableView.estimatedRowHeight = 100;
     [self.tableView setContentOffset:CGPointMake(0, 44)];
+    
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    NSAttributedString *refreshTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
+    self.refreshControl.attributedTitle = refreshTitle;
+    [self.refreshControl addTarget:self action:@selector(refreshSearch) forControlEvents:UIControlEventValueChanged];
+    [self.tableView addSubview:self.refreshControl];
 }
 
 - (void)setupNotifications {
