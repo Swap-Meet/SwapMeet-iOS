@@ -188,14 +188,8 @@
 
 - (void)searchForGames {
     [_searchTask cancel];
-    _gamesArray = [NSMutableArray array];
     hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [self searchAtOffset:0 forPlatform:self.consoleFilter];
-}
-
-- (void)refreshSearch {
-    [self searchForGames];
-    [self.refreshControl endRefreshing];
 }
 
 #pragma mark - PRIVATE METHODS
@@ -204,6 +198,7 @@
     NSString *searchText;
     _canLoadMore = NO;
     
+    //NSLog(@"%@", searchText);
     if ([_searchBar.text isEqualToString:@""]) {
         searchText = nil;
     } else {
@@ -212,38 +207,49 @@
     if ([platform isEqualToString:@""]) {
         platform = nil;
     }
-
-    //NSLog(@"%@", searchText);
     
     if (!self.token) {
         _searchTask = [SMNetworking publicBrowsingContaining:searchText forPlatform:platform atOffset:offset completion:^(NSArray *objects, NSInteger itemsLeft, NSString *errorString) {
             _canLoadMore = itemsLeft > 0;
             NSLog(@"Count: %ld. Items left: %ld", (long)[objects count], (long)itemsLeft);
-            [hud hide:YES];
+            //[hud hide:YES];
+            //[self.refreshControl endRefreshing];
+            
             if (errorString) {
                 NSLog(@"%@", errorString);
                 return;
             }
             
-            [_gamesArray addObjectsFromArray:objects];
-            NSLog(@"%@", objects);
-            [_tableView reloadData];
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                _gamesArray = [NSMutableArray array];
+                [_gamesArray addObjectsFromArray:objects];
+                NSLog(@"%@", objects);
+                [_tableView reloadData];
+            }];
         }];
     } else {
         _searchTask = [SMNetworking searchForGamesContaining:searchText forPlatform:platform atOffset:offset completion:^(NSArray *objects, NSInteger itemsLeft, NSString *errorString) {
             _canLoadMore = itemsLeft > 0;
             NSLog(@"Count: %ld. Items left: %ld", (long)[objects count], (long)itemsLeft);
-            [hud hide:YES];
+            //[hud hide:YES];
+            //[self.refreshControl endRefreshing];
+            
             if (errorString) {
                 NSLog(@"%@", errorString);
                 return;
             }
             
-            [_gamesArray addObjectsFromArray:objects];
-            NSLog(@"%@", objects);
-            [_tableView reloadData];
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                _gamesArray = [NSMutableArray array];
+                [_gamesArray addObjectsFromArray:objects];
+                NSLog(@"%@", objects);
+                [_tableView reloadData];
+            }];
         }];
     }
+    
+    [hud hide:YES];
+    [self.refreshControl endRefreshing];
 }
 
 - (void)addedFavorite:(NSNotification *)notification {
@@ -360,7 +366,7 @@
     self.refreshControl = [[UIRefreshControl alloc] init];
     NSAttributedString *refreshTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
     self.refreshControl.attributedTitle = refreshTitle;
-    [self.refreshControl addTarget:self action:@selector(refreshSearch) forControlEvents:UIControlEventValueChanged];
+    [self.refreshControl addTarget:self action:@selector(searchForGames) forControlEvents:UIControlEventValueChanged];
     [self.tableView addSubview:self.refreshControl];
 }
 
