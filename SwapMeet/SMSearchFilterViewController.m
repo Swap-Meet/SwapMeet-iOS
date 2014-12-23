@@ -67,7 +67,6 @@
         self.selectedConsoleSearch = [self.consoles objectAtIndex:0];
     }
     
-    NSLog(@"%@", self.selectedConsoleSearch);
     [self.delegate searchFilterConfirmed:self.selectedConsoleSearch];
     [self dismissViewControllerAnimated:YES completion:nil];
 }

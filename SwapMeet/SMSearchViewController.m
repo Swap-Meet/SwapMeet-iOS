@@ -48,13 +48,7 @@
     [self setupNavigationBar];
     [self setupTableView];
     [self setupNotifications];
-    
-    self.searchBar.barTintColor = [UIColor colorWithHexString:@"009999"];
-    self.placeholderText = @"What games are you looking for today?";
-    self.searchBar.placeholder = self.placeholderText;
-    
-    _canLoadMore = YES;
-    _newQuery = YES;
+    [self setupSearch];
     [self searchForGames];
     
     self.tableView.delegate = self;
@@ -223,7 +217,6 @@
     NSString *searchText;
     _canLoadMore = NO;
     
-    //NSLog(@"%@", searchText);
     if ([_searchBar.text isEqualToString:@""]) {
         searchText = nil;
     } else {
@@ -408,6 +401,15 @@
 - (void)setupNotifications {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addedFavorite:) name:@"FAVORITE_ADDED" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deletedFavorite:) name:@"FAVORITE_DELETED" object:nil];
+}
+
+- (void)setupSearch {
+    self.searchBar.barTintColor = [UIColor colorWithHexString:@"009999"];
+    self.placeholderText = @"What games are you looking for today?";
+    self.searchBar.placeholder = self.placeholderText;
+    
+    _canLoadMore = YES;
+    _newQuery = YES;
 }
 
 @end
