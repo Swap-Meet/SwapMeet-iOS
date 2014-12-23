@@ -16,19 +16,22 @@
 #import "Game.h"
 #import "CoreDataController.h"
 #import "GDCacheController.h"
-#import "UIColor+Hex.h"
 #import <MBProgressHUD/MBProgressHUD.h>
+#import "UIColor+Hex.h"
 
 @interface SMSearchViewController () {
     MBProgressHUD *hud;
 }
 
-@property (strong, nonatomic) NSString *token;
 @property (nonatomic) NSURLSessionDataTask *searchTask;
-@property BOOL canLoadMore;
 @property (strong, nonatomic) NSString *consoleFilter;
 @property (strong, nonatomic) SMSearchFilterViewController *searchFilterViewController;
+@property (strong, nonatomic) UITableViewController *tableViewController;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
+@property (strong, nonatomic) NSString *placeholderText;
+@property BOOL canLoadMore;
+@property BOOL newQuery;
+@property (strong, nonatomic) NSString *token;
 
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -39,17 +42,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    //self.searchFilterViewController = [[SMSearchFilterViewController alloc] init];
-    
     self.token = [[NSUserDefaults standardUserDefaults] objectForKey:kSMDefaultsKeyToken];
     self.gamesArray = [NSMutableArray array];
     
     [self setupNavigationBar];
     [self setupTableView];
     [self setupNotifications];
-    
-    _canLoadMore = YES;
+    [self setupSearch];
     [self searchForGames];
     
     self.tableView.delegate = self;
@@ -59,7 +58,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:YES];
-    [self.tableView setContentOffset:CGPointMake(0, 44)];
+    //[self.tableView setContentOffset:CGPointMake(0, 44)];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -175,7 +174,26 @@
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     [searchBar resignFirstResponder];
+    [self.searchBar setShowsCancelButton:NO animated:YES];
     [self searchForGames];
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    [searchBar resignFirstResponder];
+    self.searchBar.placeholder = self.placeholderText;
+    [self.searchBar setShowsCancelButton:NO animated:YES];
+}
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
+    self.searchBar.placeholder = nil;
+    [self.searchBar setShowsCancelButton:YES animated:YES];
+}
+
+- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar {
+    if ([_searchBar.text isEqualToString:@""]) {
+        self.searchBar.placeholder = self.placeholderText;
+    }
+    [self.searchBar setShowsCancelButton:NO animated:YES];
 }
 
 #pragma mark - SEARCH DELEGATE
@@ -188,14 +206,9 @@
 
 - (void)searchForGames {
     [_searchTask cancel];
-    _gamesArray = [NSMutableArray array];
+    _newQuery = YES;
     hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [self searchAtOffset:0 forPlatform:self.consoleFilter];
-}
-
-- (void)refreshSearch {
-    [self searchForGames];
-    [self.refreshControl endRefreshing];
 }
 
 #pragma mark - PRIVATE METHODS
@@ -212,36 +225,50 @@
     if ([platform isEqualToString:@""]) {
         platform = nil;
     }
-
-    //NSLog(@"%@", searchText);
     
     if (!self.token) {
         _searchTask = [SMNetworking publicBrowsingContaining:searchText forPlatform:platform atOffset:offset completion:^(NSArray *objects, NSInteger itemsLeft, NSString *errorString) {
             _canLoadMore = itemsLeft > 0;
             NSLog(@"Count: %ld. Items left: %ld", (long)[objects count], (long)itemsLeft);
             [hud hide:YES];
+            [self.refreshControl endRefreshing];
+            
             if (errorString) {
                 NSLog(@"%@", errorString);
                 return;
             }
             
-            [_gamesArray addObjectsFromArray:objects];
-            NSLog(@"%@", objects);
-            [_tableView reloadData];
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                if (_newQuery == YES) {
+                    _gamesArray = [NSMutableArray array];
+                }
+                [_gamesArray addObjectsFromArray:objects];
+                NSLog(@"%@", objects);
+                _newQuery = NO;
+                [_tableView reloadData];
+            }];
         }];
     } else {
         _searchTask = [SMNetworking searchForGamesContaining:searchText forPlatform:platform atOffset:offset completion:^(NSArray *objects, NSInteger itemsLeft, NSString *errorString) {
             _canLoadMore = itemsLeft > 0;
             NSLog(@"Count: %ld. Items left: %ld", (long)[objects count], (long)itemsLeft);
             [hud hide:YES];
+            [self.refreshControl endRefreshing];
+            
             if (errorString) {
                 NSLog(@"%@", errorString);
                 return;
             }
             
-            [_gamesArray addObjectsFromArray:objects];
-            NSLog(@"%@", objects);
-            [_tableView reloadData];
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                if (_newQuery == YES) {
+                    _gamesArray = [NSMutableArray array];
+                }
+                [_gamesArray addObjectsFromArray:objects];
+                NSLog(@"%@", objects);
+                _newQuery = NO;
+                [_tableView reloadData];
+            }];
         }];
     }
 }
@@ -330,12 +357,14 @@
 - (IBAction)swapBoxButtonPressed:(id)sender {
     SMSwapBoxViewController *swapBoxViewController = [[SMSwapBoxViewController alloc] initWithNibName:@"SMSwapBoxViewController" bundle:[NSBundle mainBundle]];
     [self presentViewController:swapBoxViewController animated:YES completion:nil];
+    self.searchBar.showsCancelButton = NO;
 }
 
 - (IBAction)filterButtonPressed:(id)sender {
     SMSearchFilterViewController *searchFilterViewController = [[SMSearchFilterViewController alloc] initWithNibName:@"SMSearchFilterViewController" bundle:[NSBundle mainBundle]];
     searchFilterViewController.delegate = self;
     [self presentViewController:searchFilterViewController animated:YES completion:nil];
+    self.searchBar.showsCancelButton = NO;
 }
 
 #pragma mark - SETUP
@@ -346,7 +375,8 @@
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:@"1B465A"];//009999, 1B465A, F53131, D7D7D7;
     self.navigationController.navigationBar.translucent = NO;
     UIImage *image = [UIImage imageNamed:@"logo"];
-    UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 50, 20)];
+    imageView.image = image;
     imageView.contentMode = UIViewContentModeScaleAspectFit;
     self.navigationItem.titleView = imageView;
 }
@@ -357,16 +387,29 @@
     self.tableView.estimatedRowHeight = 100;
     [self.tableView setContentOffset:CGPointMake(0, 44)];
     
+    self.tableViewController = [[UITableViewController alloc] init];
+    self.tableViewController.tableView = self.tableView;
+    
     self.refreshControl = [[UIRefreshControl alloc] init];
     NSAttributedString *refreshTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
     self.refreshControl.attributedTitle = refreshTitle;
-    [self.refreshControl addTarget:self action:@selector(refreshSearch) forControlEvents:UIControlEventValueChanged];
-    [self.tableView addSubview:self.refreshControl];
+    [self.refreshControl addTarget:self action:@selector(searchForGames) forControlEvents:UIControlEventValueChanged];
+    //[self.tableView addSubview:self.refreshControl];
+    self.tableViewController.refreshControl = self.refreshControl;
 }
 
 - (void)setupNotifications {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addedFavorite:) name:@"FAVORITE_ADDED" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deletedFavorite:) name:@"FAVORITE_DELETED" object:nil];
+}
+
+- (void)setupSearch {
+    self.searchBar.barTintColor = [UIColor colorWithHexString:@"009999"];
+    self.placeholderText = @"What games are you looking for today?";
+    self.searchBar.placeholder = self.placeholderText;
+    
+    _canLoadMore = YES;
+    _newQuery = YES;
 }
 
 @end

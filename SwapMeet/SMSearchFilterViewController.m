@@ -7,12 +7,15 @@
 //
 
 #import "SMSearchFilterViewController.h"
+#import "UIColor+Hex.h"
 
 @interface SMSearchFilterViewController ()
 
 @property (strong, nonatomic) NSArray *consoles;
 @property (strong, nonatomic) NSString *selectedConsoleSearch;
 
+@property (weak, nonatomic) IBOutlet UINavigationBar *searchFilterNavigationBar;
+@property (weak, nonatomic) IBOutlet UIView *statusBarView;
 @property (weak, nonatomic) IBOutlet UIPickerView *consolePickerView;
 
 @end
@@ -21,7 +24,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    [self setupNavigationBar];
     self.consoles = [[NSArray alloc] initWithObjects:@"", @"Atari", @"Board/Card Games", @"Dreamcast", @"GameCube", @"Game Boy", @"Game Boy Advance", @"Genesis", @"Other", @"Nintendo", @"Nintendo DS", @"Nintendo 3DS", @"PC", @"PlayStation", @"PlayStation 2", @"PlayStation 3", @"PlayStation 4", @"PlayStation Vita", @"PSP", @"Saturn", @"Super Nintendo", @"Wii U", @"Xbox", @"Xbox 360", @"Xbox One", nil];
     
     self.consolePickerView.dataSource = self;
@@ -64,9 +67,15 @@
         self.selectedConsoleSearch = [self.consoles objectAtIndex:0];
     }
     
-    NSLog(@"%@", self.selectedConsoleSearch);
     [self.delegate searchFilterConfirmed:self.selectedConsoleSearch];
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - SETUP
+
+- (void)setupNavigationBar {
+    self.searchFilterNavigationBar.barTintColor = [UIColor colorWithHexString:@"1B465A"];
+    self.statusBarView.backgroundColor = [UIColor colorWithHexString:@"1B465A"];
 }
 
 @end
