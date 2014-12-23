@@ -449,30 +449,32 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="GA1-W7-NHP">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                                <rect key="frame" x="0.0" y="44" width="600" height="507"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <searchBar key="tableHeaderView" contentMode="redraw" id="tCd-C4-PaH">
-                                    <rect key="frame" x="0.0" y="135" width="600" height="44"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <textInputTraits key="textInputTraits"/>
-                                </searchBar>
                             </tableView>
+                            <searchBar contentMode="redraw" text="" translatesAutoresizingMaskIntoConstraints="NO" id="tCd-C4-PaH">
+                                <rect key="frame" x="0.0" y="64" width="600" height="44"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="search" enablesReturnKeyAutomatically="YES"/>
+                            </searchBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="tCd-C4-PaH" firstAttribute="top" secondItem="fuF-dq-4QH" secondAttribute="bottom" id="47s-ZH-jsn"/>
                             <constraint firstAttribute="trailingMargin" secondItem="GA1-W7-NHP" secondAttribute="trailing" constant="-16" id="6e8-a4-0Ai"/>
-                            <constraint firstItem="GA1-W7-NHP" firstAttribute="top" secondItem="QRm-6m-Kdf" secondAttribute="topMargin" id="Qm2-Qd-oSA"/>
+                            <constraint firstItem="tCd-C4-PaH" firstAttribute="leading" secondItem="QRm-6m-Kdf" secondAttribute="leadingMargin" constant="-16" id="K2O-5B-bJA"/>
+                            <constraint firstItem="GA1-W7-NHP" firstAttribute="top" secondItem="QRm-6m-Kdf" secondAttribute="topMargin" constant="44" id="Qm2-Qd-oSA"/>
                             <constraint firstItem="GA1-W7-NHP" firstAttribute="leading" secondItem="QRm-6m-Kdf" secondAttribute="leadingMargin" constant="-16" id="Xz8-50-xmn"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="tCd-C4-PaH" secondAttribute="trailing" constant="-16" id="et1-OD-KrB"/>
                             <constraint firstItem="Lri-JK-G0o" firstAttribute="top" secondItem="GA1-W7-NHP" secondAttribute="bottom" id="mWc-sj-7U9"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="&lt;Swap Meet Logo&gt;" id="J5P-rF-QnS">
-                        <barButtonItem key="leftBarButtonItem" title="Swap Box" id="Ues-3c-aXI">
+                        <barButtonItem key="leftBarButtonItem" title="SB" id="Ues-3c-aXI">
                             <connections>
                                 <action selector="swapBoxButtonPressed:" destination="hRt-Hz-bhQ" id="vXa-Nl-Pqg"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Search Filter" id="3aI-Ce-bB9">
+                        <barButtonItem key="rightBarButtonItem" title="SF" id="3aI-Ce-bB9">
                             <connections>
                                 <action selector="filterButtonPressed:" destination="hRt-Hz-bhQ" id="7QQ-VP-c64"/>
                             </connections>
@@ -485,7 +487,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="37A-Vv-tmC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1805" y="999"/>
+            <point key="canvasLocation" x="1812" y="1033"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="8Dn-dw-6ar">

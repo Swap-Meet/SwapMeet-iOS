@@ -8,18 +8,25 @@
 
 #import "SearchTableViewCell.h"
 #import "SMNetworking.h"
+#import "UIColor+Hex.h"
 
 @interface SearchTableViewCell ()
+
 @property (weak, nonatomic) IBOutlet UIImageView *starImageView;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *starActivityIndicator;
 @property (weak, nonatomic) IBOutlet UIView *starringView;
 @property (weak, nonatomic) IBOutlet UIView *platformBackgroundView;
+
 @end
 
 @implementation SearchTableViewCell
 
 - (void)awakeFromNib {
     // Initialization code
+    
+    //self.backgroundColor = [UIColor colorWithHexString:@"1B465A"];
+    //self.starringView.backgroundColor = [UIColor colorWithHexString:@"1B465A"];
+    self.titleLabel.textColor = [UIColor colorWithHexString:@"009999"];
     
     // Favorite Tap Gesture
     UITapGestureRecognizer *didSelectFavorite = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(favoriteTap)];
