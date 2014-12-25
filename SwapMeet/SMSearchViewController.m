@@ -200,7 +200,6 @@
 
 - (void)searchFilterConfirmed:(NSString *)consoleFilter {
     self.consoleFilter = consoleFilter;
-    //NSLog(@"Delegate: %@, Variable: %@", consoleFilter, self.consoleFilter);
     [self searchForGames];
 }
 
@@ -405,8 +404,19 @@
 
 - (void)setupSearch {
     self.searchBar.barTintColor = [UIColor colorWithHexString:@"009999"];
-    self.placeholderText = @"What games are you looking for today?";
+    UIBarButtonItem *searchCancelButton = [UIBarButtonItem appearanceWhenContainedIn:[UISearchBar class], nil];
+    [searchCancelButton setTintColor:[UIColor whiteColor]];
+    self.placeholderText = @"What games do you want?";
     self.searchBar.placeholder = self.placeholderText;
+    
+//    for (id object in [[[self.searchBar subviews] objectAtIndex:0] subviews]) {
+//        if ([object isKindOfClass:[UITextField class]]) {
+//            UITextField *textFieldObject = (UITextField *)object;
+//            
+//            textFieldObject.layer.borderWidth = 1.0;
+//            break;
+//        }
+//    }
     
     _canLoadMore = YES;
     _newQuery = YES;
