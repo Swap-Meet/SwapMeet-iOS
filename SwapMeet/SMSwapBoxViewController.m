@@ -10,6 +10,7 @@
 #import "SMNetworking.h"
 #import "SwapTableViewCell.h"
 #import <MBProgressHUD/MBProgressHUD.h>
+#import "UIColor+Hex.h"
 
 @interface SMSwapBoxViewController () {
     MBProgressHUD *hud;
@@ -19,8 +20,11 @@
 @property (strong, nonatomic) NSMutableArray *swapOuts;
 @property (nonatomic) NSURLSessionDataTask *requestTask;
 
+@property (weak, nonatomic) IBOutlet UINavigationBar *navigationBar;
+@property (weak, nonatomic) IBOutlet UIView *statusBarView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
+
 
 @end
 
@@ -28,10 +32,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    [self.tableView registerNib:[UINib nibWithNibName:@"SwapTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"SWAP_CELL"];
-    self.tableView.rowHeight = UITableViewAutomaticDimension;
-    self.tableView.estimatedRowHeight = 100;
+    [self setupNavigationBar];
+    [self setupTableView];
     
     [self fetchIncomingRequests];
     
@@ -123,7 +125,6 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     //
-    
 }
 
 //- (IBAction)changeSegment:(id)sender {
@@ -145,6 +146,36 @@
 
 - (IBAction)cancelButtonPressed:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - SETUP
+
+- (void)setupNavigationBar {
+    self.navigationBar.barTintColor = [UIColor colorWithHexString:@"1B465A"];
+    self.statusBarView.backgroundColor = [UIColor colorWithHexString:@"1B465A"];
+    self.segmentedControl.tintColor = [UIColor colorWithHexString:@"009999"];
+    //self.segmentedControl.tintColor = [UIColor whiteColor];
+    //self.segmentedControl.backgroundColor = [UIColor whiteColor];
+    
+    UIView *navTitleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 50, 20)];
+    UISegmentedControl *segmentedControlCode = [[UISegmentedControl alloc] initWithFrame:CGRectMake(0, 0, 50, 20)];
+    navTitleView = segmentedControlCode;
+    self.navigationItem.titleView = navTitleView;
+
+//    UIView *navView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 50, 20)];
+//    [navView addSubview:self.segmentedControl];
+//    self.navigationItem.titleView = navView;
+    
+//    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 50, 20)];
+//    imageView.image = image;
+//    imageView.contentMode = UIViewContentModeScaleAspectFit;
+//    self.navigationItem.titleView = imageView;
+}
+
+- (void)setupTableView {
+    [self.tableView registerNib:[UINib nibWithNibName:@"SwapTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"SWAP_CELL"];
+    self.tableView.rowHeight = UITableViewAutomaticDimension;
+    self.tableView.estimatedRowHeight = 100;
 }
 
 @end

@@ -23,6 +23,9 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [CoreDataController controller];
     
+    UIBarButtonItem *navigationButtons = [UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil];
+    [navigationButtons setTintColor:[UIColor whiteColor]];
+    
     return YES;
 }
 

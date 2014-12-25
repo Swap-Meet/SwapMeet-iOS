@@ -6,7 +6,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SMSwapBoxViewController">
             <connections>
+                <outlet property="navigationBar" destination="184-1N-qlR" id="Mhp-1q-Hpu"/>
                 <outlet property="segmentedControl" destination="XeG-hw-dDN" id="Dsd-dA-k46"/>
+                <outlet property="statusBarView" destination="Z8G-tr-xmB" id="T27-6a-xgp"/>
                 <outlet property="tableView" destination="uSb-Xd-pzd" id="kjZ-Zm-SLy"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -16,6 +18,13 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Z8G-tr-xmB">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="20"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="20" id="RNy-6x-kH9"/>
+                    </constraints>
+                </view>
                 <navigationBar contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="184-1N-qlR">
                     <rect key="frame" x="0.0" y="20" width="600" height="44"/>
                     <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -38,6 +47,7 @@
                                     <action selector="segmentChanged:" destination="-1" eventType="valueChanged" id="k6G-xa-rV2"/>
                                 </connections>
                             </segmentedControl>
+                            <barButtonItem key="rightBarButtonItem" title="Item" systemItem="edit" id="sIk-rW-pq6"/>
                         </navigationItem>
                     </items>
                 </navigationBar>
@@ -50,9 +60,12 @@
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="184-1N-qlR" secondAttribute="trailing" id="8YD-UG-eIC"/>
                 <constraint firstItem="uSb-Xd-pzd" firstAttribute="top" secondItem="184-1N-qlR" secondAttribute="bottom" id="AWn-dS-p7Z"/>
+                <constraint firstItem="Z8G-tr-xmB" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="Iix-kB-VPF"/>
                 <constraint firstAttribute="bottom" secondItem="uSb-Xd-pzd" secondAttribute="bottom" id="LN7-As-9FB"/>
+                <constraint firstItem="Z8G-tr-xmB" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="OAa-l3-K5I"/>
+                <constraint firstItem="184-1N-qlR" firstAttribute="top" secondItem="Z8G-tr-xmB" secondAttribute="bottom" id="PIg-gg-c4L"/>
                 <constraint firstAttribute="trailing" secondItem="uSb-Xd-pzd" secondAttribute="trailing" id="RVN-Kd-blJ"/>
-                <constraint firstItem="184-1N-qlR" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="20" id="VUO-y9-WYk"/>
+                <constraint firstAttribute="trailing" secondItem="Z8G-tr-xmB" secondAttribute="trailing" id="hQT-hp-MAv"/>
                 <constraint firstItem="184-1N-qlR" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="ieu-eN-yhE"/>
                 <constraint firstItem="uSb-Xd-pzd" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="sEQ-MQ-t5p"/>
             </constraints>
