@@ -76,6 +76,18 @@
 - (void)setupNavigationBar {
     self.searchFilterNavigationBar.barTintColor = [UIColor colorWithHexString:@"1B465A"];
     self.statusBarView.backgroundColor = [UIColor colorWithHexString:@"1B465A"];
+    
+    //    // this will appear as the title in the navigation bar
+    //    UILabel *label = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
+    //    label.backgroundColor = [UIColor clearColor];
+    //    label.font = [UIFont boldSystemFontOfSize:20.0];
+    //    label.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
+    //    label.textAlignment = NSTextAlignmentCenter;
+    //    // ^-Use UITextAlignmentCenter for older SDKs.
+    //    label.textColor = [UIColor yellowColor]; // change this color
+    //    self.navigationItem.titleView = label;
+    //    label.text = NSLocalizedString(@"PageThreeTitle", @"");
+    //    [label sizeToFit];
 }
 
 @end
