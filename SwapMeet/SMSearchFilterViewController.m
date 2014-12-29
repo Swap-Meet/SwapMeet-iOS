@@ -88,6 +88,7 @@
     //    self.navigationItem.titleView = label;
     //    label.text = NSLocalizedString(@"PageThreeTitle", @"");
     //    [label sizeToFit];
+    //    Add to other places
 }
 
 @end
