@@ -15,6 +15,7 @@
 #import "CLUploader+SwapMeet.h"
 #import "UIImage+SwapMeet.h"
 #import <MBProgressHUD/MBProgressHUD.h>
+#import "UIColor+Hex.h"
 
 NSString * const kSMDefaultsKeyEmail = @"email";
 NSString * const kSMDefaultsKeyScreenName = @"screename";
@@ -40,6 +41,7 @@ NSString * const kSMDefaultsKeyAvatarURL = @"avatar";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self setupNavigationBar];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(favoriteAdded:) name:@"ADDED_FAVORITE" object:nil];
     [self.tableView registerNib:[UINib nibWithNibName:@"SearchTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"GAME_CELL"];
@@ -318,6 +320,11 @@ NSString * const kSMDefaultsKeyAvatarURL = @"avatar";
     [self presentViewController:addGameVC animated:true completion:nil];
 }
 
+#pragma mark - SETUP
 
+- (void)setupNavigationBar {
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:@"1B465A"];
+    self.navigationController.navigationItem.titleView.tintColor = [UIColor whiteColor];
+}
 
 @end

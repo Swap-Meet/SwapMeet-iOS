@@ -39,7 +39,7 @@
             </objects>
             <point key="canvasLocation" x="1679" y="3163"/>
         </scene>
-        <!--My Profile-->
+        <!--Profile View Controller-->
         <scene sceneID="Kzl-UZ-a6w">
             <objects>
                 <viewController id="Yb5-xL-fHA" customClass="SMProfileViewController" sceneMemberID="viewController">
@@ -139,8 +139,8 @@
                             <constraint firstAttribute="trailingMargin" secondItem="y17-fb-i53" secondAttribute="trailing" constant="-16" id="jvl-ac-vXE"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="My Profile" id="AJB-tO-0Os">
-                        <barButtonItem key="leftBarButtonItem" title="Swap Box" id="w99-MM-Ph9"/>
+                    <navigationItem key="navigationItem" id="AJB-tO-0Os">
+                        <barButtonItem key="leftBarButtonItem" title="SB" id="w99-MM-Ph9"/>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="zTj-Jm-PTL">
                             <connections>
                                 <action selector="addButtonPressed:" destination="Yb5-xL-fHA" id="qYV-bo-d1W"/>
